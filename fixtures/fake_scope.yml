@@ -1,0 +1,14 @@
+program_name: Synthetic Test Program
+platform: Local Lab
+in_scope:
+  - example.test
+  - "*.api.example.test"
+out_of_scope:
+  - admin.example.test
+  - example.test/private/*
+forbidden_tests:
+  - denial of service
+rate_limits:
+  requests_per_second: 1
+auth_notes: Use synthetic accounts only.
+report_notes: All fixture data is fake.

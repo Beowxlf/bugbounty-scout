@@ -1,0 +1,12 @@
+version: 1
+description: Default categories redacted by BugBountyScout.
+categories:
+  - bearer_tokens
+  - jwt
+  - api_keys
+  - cookies
+  - session_ids
+  - emails
+  - phone_numbers
+  - secret_key_values
+replacement_policy: typed-placeholders
