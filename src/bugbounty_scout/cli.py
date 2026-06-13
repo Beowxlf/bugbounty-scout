@@ -6,7 +6,13 @@ import typer
 from rich.console import Console
 
 from bugbounty_scout import __version__
-from bugbounty_scout.commands import endpoints_cmd, har_cmd, report_cmd, scope_cmd
+from bugbounty_scout.commands import (
+    endpoints_cmd,
+    frontend_cmd,
+    har_cmd,
+    report_cmd,
+    scope_cmd,
+)
 from bugbounty_scout.commands.redact_cmd import redact_file
 from bugbounty_scout.workspace import create_workspace
 
@@ -19,6 +25,7 @@ app.add_typer(scope_cmd.app, name="scope")
 app.add_typer(report_cmd.app, name="report")
 app.add_typer(har_cmd.app, name="har")
 app.add_typer(endpoints_cmd.app, name="endpoints")
+app.add_typer(frontend_cmd.app, name="frontend")
 app.command("redact")(redact_file)
 console = Console()
 

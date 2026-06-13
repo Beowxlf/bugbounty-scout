@@ -126,3 +126,83 @@ class TestingChecklistItem(BaseModel):
     question: str
     reason: str
     priority: str
+
+
+class FrontendFinding(BaseModel):
+    id: str
+    title: str
+    type: str
+    severity: Severity = Severity.INFO
+    confidence: Confidence = Confidence.MEDIUM
+    asset: str
+    source_file: str
+    line: int | None = None
+    column: int | None = None
+    evidence: str = ""
+    redacted_evidence: str = ""
+    context: dict[str, Any] = Field(default_factory=dict)
+    risk_tags: list[str] = Field(default_factory=list)
+    recommendation: str = ""
+    source_module: str = "frontend-exposure-analyzer"
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class SourceMapFinding(BaseModel):
+    id: str
+    source_map_file: str
+    referenced_by: str = ""
+    original_source_path: str = ""
+    line: int | None = None
+    evidence: str = ""
+    redacted_evidence: str = ""
+    finding_type: str
+    severity: Severity = Severity.INFO
+    confidence: Confidence = Confidence.HIGH
+    recommendation: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class ClientStorageReference(BaseModel):
+    storage_type: str
+    key: str = ""
+    source_file: str
+    line: int
+    risk: str = "manual review"
+    evidence: str = ""
+    redacted_evidence: str = ""
+
+
+class DomReviewLead(BaseModel):
+    source_file: str
+    line: int
+    source_pattern: str
+    sink_pattern: str
+    evidence: str = ""
+    redacted_evidence: str = ""
+    review_reason: str
+
+
+class PostMessageLead(BaseModel):
+    source_file: str
+    line: int
+    pattern: str
+    has_origin_check: bool
+    evidence: str = ""
+    redacted_evidence: str = ""
+    review_reason: str
+
+
+class FrontendInventory(BaseModel):
+    project_name: str = "BugBountyScout frontend exposure inventory"
+    source_files: list[str] = Field(default_factory=list)
+    findings: list[FrontendFinding] = Field(default_factory=list)
+    secrets: list[FrontendFinding] = Field(default_factory=list)
+    runtime_configs: list[FrontendFinding] = Field(default_factory=list)
+    source_maps: list[SourceMapFinding] = Field(default_factory=list)
+    routes: list[Endpoint] = Field(default_factory=list)
+    api_clients: list[FrontendFinding] = Field(default_factory=list)
+    storage_references: list[ClientStorageReference] = Field(default_factory=list)
+    dom_review_leads: list[DomReviewLead] = Field(default_factory=list)
+    postmessage_leads: list[PostMessageLead] = Field(default_factory=list)
+    generated_at: datetime = Field(default_factory=utc_now)
+    summary: dict[str, Any] = Field(default_factory=dict)

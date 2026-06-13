@@ -18,7 +18,7 @@ It is a passive-first workbench, not an exploit framework, mass scanner,
 authentication bypass tool, WAF evasion tool, credential validator, or data
 exfiltration utility. Phase 1 makes no network requests.
 
-## Phase 1.5, Phase 2A, and Phase 2B features
+## Phase 1.5, Phase 2A, Phase 2B, and Phase 2C features
 
 - Typer-based `bbs` CLI
 - Local workspace creation and configuration
@@ -38,6 +38,10 @@ exfiltration utility. Phase 1 makes no network requests.
 - Endpoint normalization, parameter names, auth indicators, object-ID candidates,
   and conservative risk tags
 - Redacted Markdown/JSON inventories and manual testing question checklists
+- Passive frontend exposure analysis for JavaScript, HTML, JSON, text, source maps, and folders
+- Redacted secret/config classification, runtime config and sensitive-comment detection
+- Source-map parsing with embedded source paths, routes, and API client hints
+- Client storage, DOM source/sink proximity, and `postMessage` manual-review leads
 
 Phase 1.5 keeps Hatchling as the small standards-based packaging backend and
 declares all runtime and development dependencies in `pyproject.toml`. CI and
@@ -80,6 +84,15 @@ bbs endpoints from-file app.js
 bbs endpoints from-folder frontend/
 bbs endpoints report capture.har --format markdown
 bbs endpoints checklist capture.har --format markdown
+bbs frontend scan-file app.js
+bbs frontend scan-folder frontend/
+bbs frontend secrets app.js
+bbs frontend sourcemaps app.js
+bbs frontend storage app.js
+bbs frontend dom-leads app.js
+bbs frontend postmessage app.js
+bbs frontend report frontend/ --format markdown
+bbs frontend report frontend/ --format json
 ```
 
 Commands read `scope.yml` from the current workspace. Output paths can be
@@ -169,27 +182,24 @@ highlights leads for authorized manual API, IDOR/BOLA, role, and tenant-boundary
 review. Regex extraction can miss dynamic routes or produce false positives;
 risk tags are not confirmed vulnerabilities.
 
+Phase 2C reads only supplied local frontend artifacts. It classifies public identifiers conservatively, redacts sensitive values, parses local source maps, and produces manual-review leads rather than vulnerability claims. It does not fetch source maps, validate secrets, generate XSS payloads, crawl sites, or perform active testing.
+
 See [docs/safety.md](docs/safety.md),
 [docs/har-analyzer.md](docs/har-analyzer.md),
-[docs/endpoint-mapper.md](docs/endpoint-mapper.md), and [SECURITY.md](SECURITY.md).
+[docs/endpoint-mapper.md](docs/endpoint-mapper.md),
+[docs/frontend-exposure-analyzer.md](docs/frontend-exposure-analyzer.md), and [SECURITY.md](SECURITY.md).
 
 ## Planned modules
 
-HAR Analyzer and Passive Endpoint Mapper are implemented through Phase 2B.
+HAR Analyzer, Passive Endpoint Mapper, and Frontend Exposure Analyzer are implemented through Phase 2C.
 Possible next passive-first
 modules, subject to the same authorization and redaction boundaries, include:
 
-- Live JS Secret Scanner
-- Source Map Hunter
 - ParamForge
 - JWT Risk Inspector
 - Header/Cookie Auditor
 - CORS Auditor
 - GraphQL Risk Mapper
-- Client Storage Auditor
-- Debug Leak Analyzer
-- Source Sink Mapper
-- PostMessage Analyzer
 - IDOR/BOLA Matrix
 - Evidence Locker
 - ReportForge
