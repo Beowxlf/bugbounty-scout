@@ -1,0 +1,1 @@
+{"project_name":"BugBountyScout passive inventory","expected_paths":["/api/users/{id}","/api/orgs/{slug}/invoices/{id}","/api/files/upload"],"synthetic_only":true}
