@@ -21,9 +21,9 @@ def export(
         finding = load_finding(finding_file)
         destination = output or finding_file.with_suffix(".md")
         export_markdown(finding, destination)
-    except ValueError as exc:
+    except (ValueError, OSError) as exc:
         console.print(f"[red]Error:[/red] {exc}")
-        raise typer.Exit(2) from exc
+        raise typer.Exit(2) from None
     for warning in finding_warnings(finding):
         console.print(f"[yellow]Warning:[/yellow] {warning}")
     console.print(f"[green]Exported report:[/green] {destination}")

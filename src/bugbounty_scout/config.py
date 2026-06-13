@@ -13,6 +13,8 @@ def load_data(path: Path) -> dict[str, Any]:
         text = path.read_text(encoding="utf-8")
     except OSError as exc:
         raise ValueError(f"Could not read {path}: {exc}") from exc
+    if not text.strip():
+        raise ValueError(f"{path} is empty")
 
     try:
         data = (

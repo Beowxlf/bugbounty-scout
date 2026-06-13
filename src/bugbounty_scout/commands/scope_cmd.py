@@ -18,8 +18,15 @@ def init_scope(
 ) -> None:
     """Create a safe scope configuration template."""
     if output.exists():
-        raise typer.BadParameter(f"Refusing to overwrite existing file: {output}")
-    dump_yaml(scope_template(), output)
+        console.print(
+            f"[red]Error:[/red] Refusing to overwrite existing file: {output}"
+        )
+        raise typer.Exit(2)
+    try:
+        dump_yaml(scope_template(), output)
+    except OSError as exc:
+        console.print(f"[red]Error:[/red] Could not write scope template: {exc}")
+        raise typer.Exit(2) from None
     console.print(f"[green]Created scope template:[/green] {output}")
 
 

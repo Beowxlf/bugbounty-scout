@@ -39,6 +39,7 @@ class Finding(BaseModel):
     impact: str = ""
     recommendation: str = ""
     source_module: str = Field(min_length=1)
+    location: str = ""
     created_at: datetime = Field(default_factory=utc_now)
 
     @field_validator("id", "title", "type", "asset", "source_module")
