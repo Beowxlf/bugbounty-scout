@@ -1,0 +1,1 @@
+{"version":3,"file":"fake_bundle_with_sourcemap.js","sourceRoot":"webpack:///src","sources":["app.ts"],"sourcesContent":["// TODO security: remove before production\nconst route = '/admin/internal';\nfetch('/api/billing/export');\n"],"names":[],"mappings":""}

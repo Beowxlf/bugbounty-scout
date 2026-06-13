@@ -295,6 +295,11 @@ def extract_text(path: Path) -> list[Endpoint]:
         raise ValueError(f"Could not read input file {path}: {exc}") from exc
     if not text.strip():
         return []
+    return extract_text_content(path, text)
+
+
+def extract_text_content(path: Path, text: str) -> list[Endpoint]:
+    """Extract endpoint-like strings from supplied local text content."""
     found: list[tuple[str, str, int]] = []
     occupied: set[str] = set()
     for match in CALL_RE.finditer(text):

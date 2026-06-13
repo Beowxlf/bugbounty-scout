@@ -26,3 +26,15 @@ def test_endpoints_cli_commands() -> None:
     )
     assert report.exit_code == 0
     assert "## Endpoint inventory" in report.output
+
+
+def test_frontend_cli_commands() -> None:
+    source = "fixtures/frontend/fake_frontend.js"
+    result = CliRunner().invoke(app, ["frontend", "scan-file", source])
+    assert result.exit_code == 0
+    assert '"secrets"' in result.output
+    report = CliRunner().invoke(
+        app, ["frontend", "report", source, "--format", "markdown"]
+    )
+    assert report.exit_code == 0
+    assert "## Frontend secret/config findings" in report.output
