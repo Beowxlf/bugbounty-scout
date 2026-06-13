@@ -1,0 +1,5 @@
+GET /api/profile HTTP/1.1
+Host: example.test
+Authorization: Bearer synthetic-token-for-redaction-only
+Cookie: session=synthetic-session; theme=dark
+Accept: application/json

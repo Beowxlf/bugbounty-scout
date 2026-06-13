@@ -1,0 +1,12 @@
+id: BBS-EXAMPLE-001
+title: Example excessive metadata response
+type: information-disclosure
+severity: low
+confidence: high
+asset: https://example.test/api/widgets/1
+evidence: The synthetic response contains an internal widget classification.
+redacted_evidence: ""
+impact: A synthetic authenticated user can learn an internal classification.
+recommendation: Return only fields required by the client.
+source_module: manual
+created_at: 2026-01-01T00:00:00Z

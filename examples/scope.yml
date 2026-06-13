@@ -1,0 +1,15 @@
+program_name: Example Program
+platform: Example Platform
+in_scope:
+  - example.test
+  - "*.api.example.test"
+out_of_scope:
+  - admin.example.test
+  - example.test/private/*
+forbidden_tests:
+  - denial of service
+  - social engineering
+rate_limits:
+  requests_per_second: 1
+auth_notes: Use only explicitly authorized test accounts.
+report_notes: Redact all sensitive values before submission.
