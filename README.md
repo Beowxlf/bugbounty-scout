@@ -18,7 +18,7 @@ It is a passive-first workbench, not an exploit framework, mass scanner,
 authentication bypass tool, WAF evasion tool, credential validator, or data
 exfiltration utility. Phase 1 makes no network requests.
 
-## Phase 1 features
+## Phase 1.5 stabilization and Phase 2A features
 
 - Typer-based `bbs` CLI
 - Local workspace creation and configuration
@@ -27,8 +27,17 @@ exfiltration utility. Phase 1 makes no network requests.
   addresses, and phone numbers
 - Validated Pydantic finding, evidence, scope, and decision models
 - Redacted Markdown finding export with quality warnings
-- Passive HAR metadata summaries in terminal-table or JSON form
+- Friendly errors for missing, empty, malformed JSON/YAML, and invalid HAR inputs
+- Passive HAR summaries and normalized endpoint inventory
+- Redacted sensitive-material location detection across URLs, headers, cookies,
+  query strings, and request/response bodies
+- Cookie attribute, security-header, third-party leakage, and cache review
+- Terminal tables plus redacted JSON and Markdown HAR reports
 - Fake fixtures and unit tests
+
+Phase 1.5 keeps Hatchling as the small standards-based packaging backend and
+declares all runtime and development dependencies in `pyproject.toml`. CI and
+the supported classifiers cover Python 3.11, 3.12, and 3.13.
 
 ## Installation
 
@@ -55,6 +64,13 @@ bbs redact capture.txt
 bbs report export finding.yml
 bbs har summary capture.har
 bbs har summary capture.har --json
+bbs har endpoints capture.har
+bbs har secrets capture.har
+bbs har cookies capture.har
+bbs har headers capture.har
+bbs har third-parties capture.har
+bbs har report capture.har --format markdown
+bbs har report capture.har --format json --output reports/capture.json
 ```
 
 Commands read `scope.yml` from the current workspace. Output paths can be
@@ -68,9 +84,22 @@ locally; there is no telemetry or cloud dependency.
    `scope.yml`.
 3. Check a target with `bbs scope check <url>` before handling captured data.
 4. Export browser traffic as HAR and inspect it with `bbs har summary`.
-5. Redact evidence with `bbs redact`.
-6. Record a validated finding based on `examples/finding.yml`.
-7. Generate a submission draft with `bbs report export`.
+5. Inventory endpoints and review redacted observations with the other
+   `bbs har` commands.
+6. Redact evidence with `bbs redact`.
+7. Record a validated finding based on `examples/finding.yml`.
+8. Generate a submission draft with `bbs report export`.
+
+## HAR redaction example
+
+A captured header such as `Authorization: Bearer fake-value` is reported as a
+`bearer_token` observation at `request header`; the value is represented as
+`<redacted-bearer-token>`. Email addresses, phone numbers, JWTs, API keys,
+session values, CSRF values, OAuth codes, refresh tokens, cookies, and
+secret-looking key/value pairs follow the same typed-placeholder policy.
+
+The source HAR remains sensitive and is not modified. Generated reports are
+redacted by default, but researchers should still review them before sharing.
 
 ## Scope format
 
@@ -119,13 +148,20 @@ reports/              Generated local reports (contents ignored by Git)
 - Fixtures are synthetic and use reserved `.test` domains.
 - No telemetry, cloud service, exploit automation, or bypass behavior.
 
-See [docs/safety.md](docs/safety.md) and [SECURITY.md](SECURITY.md).
+Passive analysis means reading a HAR file that the authorized researcher
+already captured and performing local parsing, classification, and redaction.
+BugBountyScout does not replay HAR requests, contact captured hosts, validate
+tokens, scan unrelated assets, bypass authentication or controls, or claim that
+an informational observation is automatically a vulnerability.
+
+See [docs/safety.md](docs/safety.md),
+[docs/har-analyzer.md](docs/har-analyzer.md), and [SECURITY.md](SECURITY.md).
 
 ## Planned modules
 
-These are roadmap items only and are **not implemented** in Phase 1:
+HAR Analyzer is now implemented at Phase 2A. Possible next passive-first
+modules, subject to the same authorization and redaction boundaries, include:
 
-- HAR Analyzer
 - Live JS Secret Scanner
 - Source Map Hunter
 - SPA Endpoint Mapper
@@ -142,6 +178,9 @@ These are roadmap items only and are **not implemented** in Phase 1:
 - IDOR/BOLA Matrix
 - Evidence Locker
 - ReportForge
+
+No active scanning, Burp integration, desktop UI, MCP integration, secret
+validation, or cloud service is included.
 
 ## Development and testing
 

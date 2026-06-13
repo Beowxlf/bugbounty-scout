@@ -16,6 +16,7 @@ def test_valid_finding() -> None:
     )
     assert finding.severity.value == "low"
     assert finding.created_at.tzinfo is not None
+    assert finding.location == ""
 
 
 def test_finding_rejects_invalid_severity_and_blank_title() -> None:
