@@ -18,7 +18,7 @@ It is a passive-first workbench, not an exploit framework, mass scanner,
 authentication bypass tool, WAF evasion tool, credential validator, or data
 exfiltration utility. Phase 1 makes no network requests.
 
-## Phase 1.5 stabilization and Phase 2A features
+## Phase 1.5, Phase 2A, and Phase 2B features
 
 - Typer-based `bbs` CLI
 - Local workspace creation and configuration
@@ -34,6 +34,10 @@ exfiltration utility. Phase 1 makes no network requests.
 - Cookie attribute, security-header, third-party leakage, and cache review
 - Terminal tables plus redacted JSON and Markdown HAR reports
 - Fake fixtures and unit tests
+- Passive endpoint mapping from HAR, JavaScript, HTML, JSON, text, and folders
+- Endpoint normalization, parameter names, auth indicators, object-ID candidates,
+  and conservative risk tags
+- Redacted Markdown/JSON inventories and manual testing question checklists
 
 Phase 1.5 keeps Hatchling as the small standards-based packaging backend and
 declares all runtime and development dependencies in `pyproject.toml`. CI and
@@ -71,6 +75,11 @@ bbs har headers capture.har
 bbs har third-parties capture.har
 bbs har report capture.har --format markdown
 bbs har report capture.har --format json --output reports/capture.json
+bbs endpoints from-har capture.har
+bbs endpoints from-file app.js
+bbs endpoints from-folder frontend/
+bbs endpoints report capture.har --format markdown
+bbs endpoints checklist capture.har --format markdown
 ```
 
 Commands read `scope.yml` from the current workspace. Output paths can be
@@ -154,18 +163,24 @@ BugBountyScout does not replay HAR requests, contact captured hosts, validate
 tokens, scan unrelated assets, bypass authentication or controls, or claim that
 an informational observation is automatically a vulnerability.
 
+Phase 2B also maps endpoints from local frontend files. It stores parameter
+names rather than sensitive values, normalizes likely object identifiers, and
+highlights leads for authorized manual API, IDOR/BOLA, role, and tenant-boundary
+review. Regex extraction can miss dynamic routes or produce false positives;
+risk tags are not confirmed vulnerabilities.
+
 See [docs/safety.md](docs/safety.md),
-[docs/har-analyzer.md](docs/har-analyzer.md), and [SECURITY.md](SECURITY.md).
+[docs/har-analyzer.md](docs/har-analyzer.md),
+[docs/endpoint-mapper.md](docs/endpoint-mapper.md), and [SECURITY.md](SECURITY.md).
 
 ## Planned modules
 
-HAR Analyzer is now implemented at Phase 2A. Possible next passive-first
+HAR Analyzer and Passive Endpoint Mapper are implemented through Phase 2B.
+Possible next passive-first
 modules, subject to the same authorization and redaction boundaries, include:
 
 - Live JS Secret Scanner
 - Source Map Hunter
-- SPA Endpoint Mapper
-- Passive API Mapper
 - ParamForge
 - JWT Risk Inspector
 - Header/Cookie Auditor

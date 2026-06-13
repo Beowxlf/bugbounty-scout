@@ -14,3 +14,15 @@ def test_har_malformed_error_has_no_traceback() -> None:
     assert result.exit_code == 2
     assert "Error:" in result.output
     assert "Traceback" not in result.output
+
+
+def test_endpoints_cli_commands() -> None:
+    source = "fixtures/endpoints/fake_frontend.js"
+    result = CliRunner().invoke(app, ["endpoints", "from-file", source])
+    assert result.exit_code == 0
+    assert '"endpoints"' in result.output
+    report = CliRunner().invoke(
+        app, ["endpoints", "report", source, "--format", "markdown"]
+    )
+    assert report.exit_code == 0
+    assert "## Endpoint inventory" in report.output

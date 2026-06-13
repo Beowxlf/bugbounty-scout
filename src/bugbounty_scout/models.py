@@ -76,3 +76,53 @@ class ScopeDecision(BaseModel):
     allowed: bool
     reason: str
     matched_rule: str | None = None
+
+
+class EndpointSource(BaseModel):
+    type: str
+    file: str = ""
+    url: str = ""
+    line: int | None = None
+    evidence: str = ""
+    redacted_evidence: str = ""
+
+
+class Endpoint(BaseModel):
+    id: str
+    method: str = "UNKNOWN"
+    scheme: str = ""
+    host: str = ""
+    path: str
+    normalized_path: str
+    url: str = ""
+    query_params: list[str] = Field(default_factory=list)
+    body_params: list[str] = Field(default_factory=list)
+    json_keys: list[str] = Field(default_factory=list)
+    header_names: list[str] = Field(default_factory=list)
+    status_codes: list[int] = Field(default_factory=list)
+    mime_types: list[str] = Field(default_factory=list)
+    source: list[EndpointSource] = Field(default_factory=list)
+    source_file: str = ""
+    source_module: str = "endpoint-mapper"
+    occurrences: int = 1
+    risk_tags: list[str] = Field(default_factory=list)
+    auth_indicators: list[str] = Field(default_factory=list)
+    object_id_candidates: list[str] = Field(default_factory=list)
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class ApiInventory(BaseModel):
+    project_name: str = "BugBountyScout passive inventory"
+    endpoints: list[Endpoint] = Field(default_factory=list)
+    hosts: list[str] = Field(default_factory=list)
+    generated_at: datetime = Field(default_factory=utc_now)
+    source_files: list[str] = Field(default_factory=list)
+    summary: dict[str, Any] = Field(default_factory=dict)
+
+
+class TestingChecklistItem(BaseModel):
+    endpoint_id: str
+    category: str
+    question: str
+    reason: str
+    priority: str
