@@ -28,4 +28,10 @@ jobs:
       - run: python -m pytest
       - run: bbs --help
       - run: bbs doctor
+      - run: bbs workflow --help
+      - run: bbs demo init ci-demo
+      - run: bbs workflow detect ci-demo
+      - run: bbs workflow run ci-demo
+      - run: bbs workflow status ci-demo
+      - run: bbs workflow report ci-demo --format markdown
       - run: bash scripts/smoke_py_path.sh

@@ -1,5 +1,24 @@
 # Synthetic end-to-end workflow
 
+## Simple orchestrated path
+
+```bash
+bbs workflow init demo-target
+# Copy local artifacts into demo-target/inputs/
+bbs workflow detect demo-target
+bbs workflow run demo-target
+bbs workflow status demo-target
+bbs workflow report demo-target --format markdown
+```
+
+This path only reads local files, redacts generated reports by default, and does
+not send or replay requests.
+
+## Advanced manual path
+
+Run individual analyzer commands when you need fine-grained control, then add
+their saved inventories to a correlation project with `bbs correlate`.
+
 This walkthrough uses only local synthetic fixtures. It makes no live requests,
 replays no traffic, validates no credentials, and generates no exploit payloads.
 

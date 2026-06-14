@@ -28,6 +28,8 @@ REQUIRED = (
     "README.md",
     "workflow.md",
     "scope.yml",
+    "workflow.yml",
+    ".bugbounty-scout-workflow",
 )
 WORKFLOW = f"""# Synthetic end-to-end workflow
 
@@ -162,6 +164,20 @@ def init_demo(demo_name: Path) -> None:
             encoding="utf-8",
         )
         demo_name.joinpath("workflow.md").write_text(WORKFLOW, encoding="utf-8")
+        from bugbounty_scout.models import WorkflowManifest
+        from bugbounty_scout.modules.workflow import MARKER, save_manifest
+
+        demo_name.joinpath(MARKER).write_text(
+            "BugBountyScout Workflow Workspace v1\n", encoding="utf-8"
+        )
+        save_manifest(
+            WorkflowManifest(
+                id="workflow-synthetic-demo",
+                project_name=demo_name.name,
+                workspace_path=str(demo_name.resolve()),
+            ),
+            demo_name.resolve(),
+        )
     except OSError as exc:
         console.print(f"[red]Error:[/red] Could not create demo: {exc}")
         raise typer.Exit(2) from exc

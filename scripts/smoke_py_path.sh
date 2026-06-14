@@ -13,3 +13,9 @@ python -m bugbounty_scout.cli graphql scan-har fixtures/graphql/fake_graphql.har
 python -m bugbounty_scout.cli paramforge scan-har fixtures/paramforge/fake_api.har >/dev/null
 python -m bugbounty_scout.cli correlate scan fixtures/correlate/fake_project_folder --output /tmp/bbs-smoke-correlation.yml >/dev/null
 rm -f /tmp/bbs-smoke-correlation.yml
+python -m bugbounty_scout.cli workflow --help >/dev/null
+rm -rf smoke-workflow
+python -m bugbounty_scout.cli workflow init smoke-workflow >/dev/null
+python -m bugbounty_scout.cli workflow detect smoke-workflow >/dev/null
+python -m bugbounty_scout.cli workflow status smoke-workflow >/dev/null
+python -m bugbounty_scout.cli workflow clean smoke-workflow >/dev/null

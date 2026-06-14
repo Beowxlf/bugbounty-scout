@@ -21,3 +21,9 @@ rm -rf demo-validation
 bbs demo init demo-validation
 bbs demo status demo-validation
 bbs demo clean demo-validation
+bbs workflow --help
+rm -rf testbench-workflow
+bbs workflow init testbench-workflow
+bbs workflow detect testbench-workflow
+bbs workflow status testbench-workflow
+bbs workflow clean testbench-workflow
