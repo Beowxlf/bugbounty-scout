@@ -16,6 +16,8 @@ default, and restricted to authorized assets, owned systems, and labs.
 
 ## Validation
 
+- Smoke-test `bbs workflow init`, `detect`, `run`, `status`, and `report`.
+
 - [ ] Create a clean Python 3.11, 3.12, and 3.13 environment.
 - [ ] Run `bash scripts/test_bench_validation.sh`.
 - [ ] Run `bash scripts/smoke_py_path.sh` as the restricted-network fallback.

@@ -18,7 +18,34 @@ It is a passive-first workbench, not an exploit framework, mass scanner,
 authentication bypass tool, WAF evasion tool, credential validator, or data
 exfiltration utility. Phase 1 makes no network requests.
 
-## Completed capabilities (Phase 1 through Phase 3A)
+## Completed capabilities (Phase 1 through Phase 3B)
+
+Phase 3B adds a Workflow Orchestrator that creates a marked project workspace,
+detects and hashes local artifacts, runs compatible passive modules in a safe
+order, records skipped/failed steps, saves deterministic outputs, and generates
+a project summary and report.
+
+```bash
+bbs workflow init demo-target
+# Copy authorized local files into demo-target/inputs/
+bbs workflow detect demo-target
+bbs workflow run demo-target
+bbs workflow status demo-target
+bbs workflow report demo-target --format markdown
+```
+
+The simple path above coordinates existing modules. The advanced path remains
+available: run analyzers individually, save their inventories, and use
+`bbs correlate` manually.
+
+Workflow workspaces separate categorized `inputs/`, deterministic `outputs/`,
+project `reports/`, logs, evidence, `scope.yml`, and the auditable
+`workflow.yml` manifest. Reports redact sensitive values by default, but users
+must review local storage and exports before sharing.
+
+The orchestrator makes no live requests, does not replay traffic, and does not
+fuzz, exploit, validate credentials, or replace manual authorization and impact
+review. Passive results can contain false positives and incomplete context.
 
 - Typer-based `bbs` CLI
 - Local workspace creation and configuration

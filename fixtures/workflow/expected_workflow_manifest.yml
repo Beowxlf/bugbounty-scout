@@ -1,0 +1,157 @@
+id: workflow-0153ef92e639
+project_name: bbs-fixture-workflow
+workspace_path: /tmp/bbs-fixture-workflow
+input_dir: inputs
+output_dir: outputs
+report_dir: reports
+evidence_dir: evidence
+scope_file: scope.yml
+inputs:
+- id: input-363b68492008
+  path: inputs/evidence/evidence-workspace.yml
+  input_type: evidence_workspace
+  size_bytes: 86
+  sha256: 57921c9f33e35a50898b6b4fa6c9edbe32403141c1d581a45b5395e4c30f8bd0
+  detected_modules:
+  - Project Correlator
+  - Report Quality Gate
+  parse_status: detected
+  notes: []
+  created_at: '2026-06-14T04:08:26.199645Z'
+- id: input-09662b023622
+  path: inputs/frontend/fake.html
+  input_type: html
+  size_bytes: 55
+  sha256: 81dc2c16d322b83816b2aa3e486e98de6c4ef52b7670899703c397fb50750a84
+  detected_modules:
+  - Frontend Exposure Analyzer
+  - Endpoint Mapper
+  - ParamForge
+  parse_status: detected
+  notes: []
+  created_at: '2026-06-14T04:08:26.199993Z'
+- id: input-771e3122e70d
+  path: inputs/frontend/fake.js
+  input_type: javascript
+  size_bytes: 108
+  sha256: eb66d9ee1eb994a05472cff4720f89f133feafda383097c233d91dcec96ea4b7
+  detected_modules:
+  - Frontend Exposure Analyzer
+  - Endpoint Mapper
+  - ParamForge
+  - GraphQL Risk Mapper
+  parse_status: detected
+  notes: []
+  created_at: '2026-06-14T04:08:26.200271Z'
+- id: input-a8c3fd4dd11e
+  path: inputs/frontend/fake.js.map
+  input_type: source_map
+  size_bytes: 82
+  sha256: 453705531da77b953f47fa54276282ef6445692e8c188d0c63f4880409b3649f
+  detected_modules:
+  - Frontend Exposure Analyzer
+  - ParamForge
+  parse_status: detected
+  notes: []
+  created_at: '2026-06-14T04:08:26.200525Z'
+- id: input-bb0a90d4f334
+  path: inputs/graphql/fake.graphql
+  input_type: graphql
+  size_bytes: 64
+  sha256: 5ef353e58f05dc963b5532df92c24ddc66637606b5d399e072e2af7191094388
+  detected_modules:
+  - GraphQL Risk Mapper
+  - ParamForge
+  parse_status: detected
+  notes: []
+  created_at: '2026-06-14T04:08:26.200754Z'
+- id: input-816f613fc1b3
+  path: inputs/har/fake.har
+  input_type: har
+  size_bytes: 2869
+  sha256: f2cc95dc7609f9598661c97cb39eb488c11c6ba74bbf4a206f46108e305d1bd4
+  detected_modules:
+  - HAR Analyzer
+  - Endpoint Mapper
+  - Auth Surface Analyzer
+  - ParamForge
+  parse_status: detected
+  notes: []
+  created_at: '2026-06-14T04:08:26.201016Z'
+- id: input-373699f34744
+  path: inputs/har/fake_graphql.har
+  input_type: har
+  size_bytes: 2040
+  sha256: f59e3a946aaa3f373a4ad989d7f6f7af42ba991e2d6642e8ef7c942034abe8f3
+  detected_modules:
+  - HAR Analyzer
+  - Endpoint Mapper
+  - Auth Surface Analyzer
+  - ParamForge
+  - GraphQL Risk Mapper
+  parse_status: detected
+  notes: []
+  created_at: '2026-06-14T04:08:26.201239Z'
+- id: input-4f89b79c7a62
+  path: inputs/inventories/endpoint-inventory.json
+  input_type: endpoint_inventory
+  size_bytes: 113
+  sha256: 07ecad1e1d09b8a3e22aa4c660e37eb8f05a83b685888edc6261c81cfdf14f15
+  detected_modules:
+  - Project Correlator
+  - ParamForge
+  - Authz import
+  parse_status: detected
+  notes: []
+  created_at: '2026-06-14T04:08:26.201518Z'
+- id: input-ee256636ec07
+  path: inputs/other/unknown.bin
+  input_type: unknown
+  size_bytes: 26
+  sha256: 22521583732d9ac1748b1780b1003c4d50042cf5e0c5b46dce8cc749eec0e5f6
+  detected_modules: []
+  parse_status: detected
+  notes:
+  - No supported local parser identified
+  created_at: '2026-06-14T04:08:26.201770Z'
+- id: input-2bc4cb04f6b8
+  path: inputs/requests/request.txt
+  input_type: raw_request
+  size_bytes: 98
+  sha256: bd25ddd60b5674ff932a130149f9efca2e715a08f61bfbf7b3d740495dee37bb
+  detected_modules:
+  - Auth Surface Analyzer
+  - Evidence Locker
+  parse_status: detected
+  notes: []
+  created_at: '2026-06-14T04:08:26.202045Z'
+- id: input-46606c601f3a
+  path: inputs/responses/response.txt
+  input_type: raw_response
+  size_bytes: 62
+  sha256: a17386226a0bc2690b113094aec6b6a9547b031406b4e7de38fa4e98eeecca71
+  detected_modules:
+  - Auth Surface Analyzer
+  - Evidence Locker
+  parse_status: detected
+  notes: []
+  created_at: '2026-06-14T04:08:26.202254Z'
+steps: []
+outputs: []
+correlation_project: ''
+summary:
+  total_inputs: 11
+  total_steps: 0
+  completed_steps: 0
+  skipped_steps: 0
+  failed_steps: 0
+  total_outputs: 0
+  high_priority_leads: []
+  report_ready_candidates: []
+  needs_more_evidence_count: 0
+  warnings: []
+  next_manual_actions: []
+safety_notice: Authorized local-file analysis only. No live requests, request replay,
+  fuzzing, payload generation, exploit automation, cloud calls, or telemetry.
+created_at: '2026-06-14T04:08:24.855174Z'
+updated_at: '2026-06-14T04:08:26.202321Z'

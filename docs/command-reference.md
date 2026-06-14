@@ -1,5 +1,21 @@
 # Command reference
 
+## Workflow Orchestrator
+
+```bash
+bbs workflow init <project_name>
+bbs workflow detect <workspace_or_input_folder>
+bbs workflow run <workspace_folder>
+bbs workflow status <workspace_folder>
+bbs workflow summary <workspace_folder> --format markdown|json
+bbs workflow report <workspace_folder> --format markdown|json
+bbs workflow manifest <workspace_folder> --format yaml|json
+bbs workflow clean <workspace_folder> [--outputs-only]
+```
+
+All workflow operations are local-only. The runner invokes existing passive
+module logic and never fetches targets or replays captured traffic.
+
 All commands are local-only unless explicitly documented otherwise; Phase 3A
 adds no network behavior. Outputs are redacted by default. Use only synthetic
 fixtures, owned assets, labs, or explicitly authorized bug bounty data.

@@ -892,3 +892,127 @@ class ProjectCorrelationInventory(BaseModel):
     source_files: list[str] = Field(default_factory=list)
     generated_at: datetime = Field(default_factory=utc_now)
     summary: dict[str, Any] = Field(default_factory=dict)
+
+
+class WorkflowInputType(StrEnum):
+    HAR = "har"
+    JAVASCRIPT = "javascript"
+    HTML = "html"
+    JSON = "json"
+    YAML = "yaml"
+    TEXT = "text"
+    SOURCE_MAP = "source_map"
+    GRAPHQL = "graphql"
+    RAW_REQUEST = "raw_request"
+    RAW_RESPONSE = "raw_response"
+    ENDPOINT_INVENTORY = "endpoint_inventory"
+    FRONTEND_INVENTORY = "frontend_inventory"
+    AUTH_SURFACE_INVENTORY = "auth_surface_inventory"
+    GRAPHQL_INVENTORY = "graphql_inventory"
+    PARAMFORGE_INVENTORY = "paramforge_inventory"
+    AUTHZ_MATRIX = "authz_matrix"
+    EVIDENCE_WORKSPACE = "evidence_workspace"
+    CORRELATION_PROJECT = "correlation_project"
+    UNKNOWN = "unknown"
+
+
+class WorkflowStepStatus(StrEnum):
+    PENDING = "pending"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    SKIPPED = "skipped"
+    FAILED = "failed"
+
+
+class WorkflowOutputType(StrEnum):
+    HAR_REPORT = "har_report"
+    ENDPOINT_INVENTORY = "endpoint_inventory"
+    FRONTEND_INVENTORY = "frontend_inventory"
+    AUTH_SURFACE_INVENTORY = "auth_surface_inventory"
+    GRAPHQL_INVENTORY = "graphql_inventory"
+    PARAMFORGE_INVENTORY = "paramforge_inventory"
+    AUTHZ_MATRIX = "authz_matrix"
+    EVIDENCE_WORKSPACE = "evidence_workspace"
+    CORRELATION_PROJECT = "correlation_project"
+    CORRELATION_REPORT = "correlation_report"
+    TRIAGE_LEADS = "triage_leads"
+    CHECKLIST = "checklist"
+    MARKDOWN_REPORT = "markdown_report"
+    JSON_REPORT = "json_report"
+    LOG = "log"
+    UNKNOWN = "unknown"
+
+
+class WorkflowInput(BaseModel):
+    id: str
+    path: str
+    input_type: WorkflowInputType = WorkflowInputType.UNKNOWN
+    size_bytes: int = Field(default=0, ge=0)
+    sha256: str = Field(pattern=r"^[a-fA-F0-9]{64}$")
+    detected_modules: list[str] = Field(default_factory=list)
+    parse_status: str = "detected"
+    notes: list[str] = Field(default_factory=list)
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class WorkflowStep(BaseModel):
+    id: str
+    name: str
+    module: str
+    status: WorkflowStepStatus = WorkflowStepStatus.PENDING
+    input_ids: list[str] = Field(default_factory=list)
+    output_paths: list[str] = Field(default_factory=list)
+    skipped_reason: str = ""
+    warning_messages: list[str] = Field(default_factory=list)
+    error_message: str = ""
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
+    duration_seconds: float | None = Field(default=None, ge=0)
+
+
+class WorkflowOutput(BaseModel):
+    id: str
+    path: str
+    output_type: WorkflowOutputType = WorkflowOutputType.UNKNOWN
+    source_step_id: str
+    source_module: str
+    sha256: str = Field(pattern=r"^[a-fA-F0-9]{64}$")
+    size_bytes: int = Field(default=0, ge=0)
+    redacted: bool = True
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class WorkflowSummary(BaseModel):
+    total_inputs: int = 0
+    total_steps: int = 0
+    completed_steps: int = 0
+    skipped_steps: int = 0
+    failed_steps: int = 0
+    total_outputs: int = 0
+    high_priority_leads: list[dict[str, Any]] = Field(default_factory=list)
+    report_ready_candidates: list[dict[str, Any]] = Field(default_factory=list)
+    needs_more_evidence_count: int = 0
+    warnings: list[str] = Field(default_factory=list)
+    next_manual_actions: list[str] = Field(default_factory=list)
+
+
+class WorkflowManifest(BaseModel):
+    id: str
+    project_name: str
+    workspace_path: str
+    input_dir: str = "inputs"
+    output_dir: str = "outputs"
+    report_dir: str = "reports"
+    evidence_dir: str = "evidence"
+    scope_file: str = "scope.yml"
+    inputs: list[WorkflowInput] = Field(default_factory=list)
+    steps: list[WorkflowStep] = Field(default_factory=list)
+    outputs: list[WorkflowOutput] = Field(default_factory=list)
+    correlation_project: str = ""
+    summary: WorkflowSummary = Field(default_factory=WorkflowSummary)
+    safety_notice: str = (
+        "Authorized local-file analysis only. No live requests, request replay, "
+        "fuzzing, payload generation, exploit automation, cloud calls, or telemetry."
+    )
+    created_at: datetime = Field(default_factory=utc_now)
+    updated_at: datetime = Field(default_factory=utc_now)

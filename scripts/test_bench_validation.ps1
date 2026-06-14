@@ -19,3 +19,9 @@ Remove-Item demo-validation -Recurse -Force -ErrorAction SilentlyContinue
 bbs demo init demo-validation
 bbs demo status demo-validation
 bbs demo clean demo-validation
+bbs workflow --help
+Remove-Item testbench-workflow -Recurse -Force -ErrorAction SilentlyContinue
+bbs workflow init testbench-workflow
+bbs workflow detect testbench-workflow
+bbs workflow status testbench-workflow
+bbs workflow clean testbench-workflow

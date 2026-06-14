@@ -1,5 +1,13 @@
 # Changelog
 
+## Phase 3B — Workflow Orchestrator
+
+- Added a marked, local-only project workspace and `bbs workflow` command group.
+- Added recursive input detection, hashing, classification, and module routing.
+- Added safe passive pipeline execution, deterministic outputs, manifests, status,
+  summaries, project reports, skip/failure tracking, and guarded cleanup.
+- Integrated synthetic demo projects with the workflow runner.
+
 ## Phase 3A — Release hardening
 - Added environment doctor and synthetic demo project commands.
 - Added end-to-end fixture validation, release/smoke scripts, command reference,
