@@ -307,6 +307,136 @@ class FrontendInventory(BaseModel):
     summary: dict[str, Any] = Field(default_factory=dict)
 
 
+class GraphQLOperationType(StrEnum):
+    QUERY = "query"
+    MUTATION = "mutation"
+    SUBSCRIPTION = "subscription"
+    UNKNOWN = "unknown"
+
+
+class GraphQLSchemaArtifactType(StrEnum):
+    INTROSPECTION_JSON = "introspection_json"
+    SCHEMA_SDL = "schema_sdl"
+    EMBEDDED_SCHEMA = "embedded_schema"
+    TYPE_LISTING = "type_listing"
+    UNKNOWN = "unknown"
+
+
+class GraphQLReviewLeadCategory(StrEnum):
+    AUTHORIZATION_REVIEW = "authorization_review"
+    IDOR_BOLA_CANDIDATE = "idor_bola_candidate"
+    SENSITIVE_FIELD_EXPOSURE = "sensitive_field_exposure"
+    STATE_CHANGING_MUTATION = "state_changing_mutation"
+    ADMIN_OPERATION = "admin_operation"
+    BILLING_OPERATION = "billing_operation"
+    FILE_OPERATION = "file_operation"
+    TENANT_BOUNDARY = "tenant_boundary"
+    ORG_BOUNDARY = "org_boundary"
+    ROLE_BOUNDARY = "role_boundary"
+    BATCHING_INDICATOR = "batching_indicator"
+    INTROSPECTION_ARTIFACT = "introspection_artifact"
+    EXCESSIVE_ERROR_DETAIL = "excessive_error_detail"
+    NEEDS_MANUAL_REVIEW = "needs_manual_review"
+
+
+class GraphQLEndpoint(BaseModel):
+    id: str
+    url: str = ""
+    host: str = ""
+    path: str = ""
+    method: str = "UNKNOWN"
+    source_type: str = ""
+    source_file: str = ""
+    source_module: str = "graphql-risk-mapper"
+    occurrences: int = 1
+    auth_indicators: list[str] = Field(default_factory=list)
+    risk_tags: list[str] = Field(default_factory=list)
+    evidence: str = ""
+    redacted_evidence: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class GraphQLVariable(BaseModel):
+    name: str
+    value_type: str = ""
+    observed_value_summary: str = ""
+    sensitive: bool = False
+    object_id_candidate: bool = False
+    risk_tags: list[str] = Field(default_factory=list)
+
+
+class GraphQLFragment(BaseModel):
+    name: str
+    fields: list[str] = Field(default_factory=list)
+    source_file: str = ""
+    evidence: str = ""
+    redacted_evidence: str = ""
+
+
+class GraphQLOperation(BaseModel):
+    id: str
+    operation_type: GraphQLOperationType = GraphQLOperationType.UNKNOWN
+    operation_name: str = ""
+    endpoint_id: str = ""
+    source_type: str = ""
+    source_file: str = ""
+    source_module: str = "graphql-risk-mapper"
+    variables: list[str] = Field(default_factory=list)
+    variable_types: dict[str, str] = Field(default_factory=dict)
+    fields: list[str] = Field(default_factory=list)
+    fragments: list[str] = Field(default_factory=list)
+    sensitive_fields: list[str] = Field(default_factory=list)
+    object_id_candidates: list[str] = Field(default_factory=list)
+    risk_tags: list[str] = Field(default_factory=list)
+    evidence: str = ""
+    redacted_evidence: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class GraphQLSchemaArtifact(BaseModel):
+    id: str
+    source_type: str = ""
+    source_file: str = ""
+    artifact_type: GraphQLSchemaArtifactType = GraphQLSchemaArtifactType.UNKNOWN
+    type_names: list[str] = Field(default_factory=list)
+    query_names: list[str] = Field(default_factory=list)
+    mutation_names: list[str] = Field(default_factory=list)
+    subscription_names: list[str] = Field(default_factory=list)
+    sensitive_types: list[str] = Field(default_factory=list)
+    sensitive_fields: list[str] = Field(default_factory=list)
+    evidence: str = ""
+    redacted_evidence: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class GraphQLReviewLead(BaseModel):
+    id: str
+    category: GraphQLReviewLeadCategory
+    title: str
+    endpoint_id: str = ""
+    operation_id: str = ""
+    severity: Severity = Severity.INFO
+    confidence: Confidence = Confidence.MEDIUM
+    reason: str = ""
+    manual_questions: list[str] = Field(default_factory=list)
+    evidence: str = ""
+    redacted_evidence: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class GraphQLInventory(BaseModel):
+    project_name: str = "BugBountyScout GraphQL risk inventory"
+    endpoints: list[GraphQLEndpoint] = Field(default_factory=list)
+    operations: list[GraphQLOperation] = Field(default_factory=list)
+    variables: list[GraphQLVariable] = Field(default_factory=list)
+    fragments: list[GraphQLFragment] = Field(default_factory=list)
+    schema_artifacts: list[GraphQLSchemaArtifact] = Field(default_factory=list)
+    review_leads: list[GraphQLReviewLead] = Field(default_factory=list)
+    source_files: list[str] = Field(default_factory=list)
+    generated_at: datetime = Field(default_factory=utc_now)
+    summary: dict[str, Any] = Field(default_factory=dict)
+
+
 class ExpectedResult(StrEnum):
     ALLOW = "allow"
     DENY = "deny"

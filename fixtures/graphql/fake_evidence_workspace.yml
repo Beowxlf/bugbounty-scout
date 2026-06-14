@@ -1,0 +1,9 @@
+id: evidence-graphql
+title: Fake GraphQL evidence
+finding_type: graphql-review
+affected_assets: [https://api.example.test/graphql]
+evidence_items:
+  - id: evidence-1
+    type: note
+    title: Captured operation
+    redacted_evidence_text: 'query GetDocument($documentId: ID!) { document(id: $documentId) { id owner } }'

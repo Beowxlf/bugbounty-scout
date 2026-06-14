@@ -1,0 +1,255 @@
+{
+  "project_name": "BugBountyScout GraphQL risk inventory",
+  "endpoints": [
+    {
+      "id": "gql-endpoint-adb397dbee88",
+      "url": "https://api.example.test/api/graphql",
+      "host": "api.example.test",
+      "path": "/api/graphql",
+      "method": "UNKNOWN",
+      "source_type": "js",
+      "source_file": "fixtures/graphql/fake_folder/app.js",
+      "source_module": "graphql-risk-mapper",
+      "occurrences": 1,
+      "auth_indicators": [
+        "unknown"
+      ],
+      "risk_tags": [
+        "graphql",
+        "manual-authorization-review"
+      ],
+      "evidence": "",
+      "redacted_evidence": "https://api.example.test/api/graphql",
+      "created_at": "2026-06-14T03:20:32.430522Z"
+    }
+  ],
+  "operations": [
+    {
+      "id": "gql-operation-e053b1725adc",
+      "operation_type": "subscription",
+      "operation_name": "AccountChanged",
+      "endpoint_id": "gql-endpoint-adb397dbee88",
+      "source_type": "js",
+      "source_file": "fixtures/graphql/fake_folder/app.js",
+      "source_module": "graphql-risk-mapper",
+      "variables": [
+        "accountId"
+      ],
+      "variable_types": {
+        "accountId": "ID!"
+      },
+      "fields": [
+        "account",
+        "accountChanged",
+        "accountId",
+        "email",
+        "owner"
+      ],
+      "fragments": [],
+      "sensitive_fields": [
+        "account",
+        "accountChanged",
+        "accountId",
+        "email",
+        "owner"
+      ],
+      "object_id_candidates": [
+        "accountId"
+      ],
+      "risk_tags": [
+        "manual-authorization-review",
+        "object-id-candidate",
+        "sensitive-field-selection"
+      ],
+      "evidence": "",
+      "redacted_evidence": "{ accountChanged(accountId: $accountId) { account owner email } }",
+      "created_at": "2026-06-14T03:20:32.431061Z"
+    },
+    {
+      "id": "gql-operation-24e99fd85363",
+      "operation_type": "query",
+      "operation_name": "GetUser",
+      "endpoint_id": "gql-endpoint-adb397dbee88",
+      "source_type": "graphql",
+      "source_file": "fixtures/graphql/fake_folder/query.graphql",
+      "source_module": "graphql-risk-mapper",
+      "variables": [
+        "tenantId",
+        "userId"
+      ],
+      "variable_types": {
+        "userId": "ID!",
+        "tenantId": "ID!"
+      },
+      "fields": [
+        "tenantId",
+        "user"
+      ],
+      "fragments": [
+        "UserDetails"
+      ],
+      "sensitive_fields": [
+        "tenantId",
+        "user"
+      ],
+      "object_id_candidates": [
+        "tenantId",
+        "userId"
+      ],
+      "risk_tags": [
+        "manual-authorization-review",
+        "object-id-candidate",
+        "sensitive-field-selection",
+        "tenant-boundary"
+      ],
+      "evidence": "",
+      "redacted_evidence": "{\n  user(id: $userId, tenantId: $tenantId) { ...UserDetails }\n}",
+      "created_at": "2026-06-14T03:20:32.431304Z"
+    }
+  ],
+  "variables": [
+    {
+      "name": "accountId",
+      "value_type": "ID!",
+      "observed_value_summary": "",
+      "sensitive": true,
+      "object_id_candidate": true,
+      "risk_tags": [
+        "object-id-candidate",
+        "sensitive-name"
+      ]
+    },
+    {
+      "name": "tenantId",
+      "value_type": "ID!",
+      "observed_value_summary": "",
+      "sensitive": true,
+      "object_id_candidate": true,
+      "risk_tags": [
+        "object-id-candidate",
+        "sensitive-name"
+      ]
+    },
+    {
+      "name": "userId",
+      "value_type": "ID!",
+      "observed_value_summary": "",
+      "sensitive": false,
+      "object_id_candidate": true,
+      "risk_tags": [
+        "object-id-candidate"
+      ]
+    }
+  ],
+  "fragments": [
+    {
+      "name": "UserDetails",
+      "fields": [
+        "email",
+        "fullName",
+        "organization",
+        "permissions",
+        "roles"
+      ],
+      "source_file": "fixtures/graphql/fake_folder/query.graphql",
+      "evidence": "",
+      "redacted_evidence": "{ id email fullName roles permissions organization { id } }"
+    }
+  ],
+  "schema_artifacts": [],
+  "review_leads": [
+    {
+      "id": "gql-lead-684e566a0788",
+      "category": "idor_bola_candidate",
+      "title": "Object ID variables in AccountChanged",
+      "endpoint_id": "gql-endpoint-adb397dbee88",
+      "operation_id": "gql-operation-e053b1725adc",
+      "severity": "low",
+      "confidence": "medium",
+      "reason": "Observed object identifier variables: accountId.",
+      "manual_questions": [
+        "Can Actor A access an object owned by Actor B using the observed object ID variable?"
+      ],
+      "evidence": "",
+      "redacted_evidence": "",
+      "created_at": "2026-06-14T03:20:32.431505Z"
+    },
+    {
+      "id": "gql-lead-eed548f52d87",
+      "category": "sensitive_field_exposure",
+      "title": "Sensitive fields selected by AccountChanged",
+      "endpoint_id": "gql-endpoint-adb397dbee88",
+      "operation_id": "gql-operation-e053b1725adc",
+      "severity": "low",
+      "confidence": "medium",
+      "reason": "Selected fields need role and ownership review: account, accountChanged, accountId, email, owner.",
+      "manual_questions": [
+        "Are sensitive fields filtered by role and object ownership?"
+      ],
+      "evidence": "",
+      "redacted_evidence": "",
+      "created_at": "2026-06-14T03:20:32.431528Z"
+    },
+    {
+      "id": "gql-lead-7cd29280d808",
+      "category": "idor_bola_candidate",
+      "title": "Object ID variables in GetUser",
+      "endpoint_id": "gql-endpoint-adb397dbee88",
+      "operation_id": "gql-operation-24e99fd85363",
+      "severity": "low",
+      "confidence": "medium",
+      "reason": "Observed object identifier variables: tenantId, userId.",
+      "manual_questions": [
+        "Can Actor A access an object owned by Actor B using the observed object ID variable?"
+      ],
+      "evidence": "",
+      "redacted_evidence": "",
+      "created_at": "2026-06-14T03:20:32.431586Z"
+    },
+    {
+      "id": "gql-lead-fd3528aaa734",
+      "category": "sensitive_field_exposure",
+      "title": "Sensitive fields selected by GetUser",
+      "endpoint_id": "gql-endpoint-adb397dbee88",
+      "operation_id": "gql-operation-24e99fd85363",
+      "severity": "low",
+      "confidence": "medium",
+      "reason": "Selected fields need role and ownership review: tenantId, user.",
+      "manual_questions": [
+        "Are sensitive fields filtered by role and object ownership?"
+      ],
+      "evidence": "",
+      "redacted_evidence": "",
+      "created_at": "2026-06-14T03:20:32.431602Z"
+    },
+    {
+      "id": "gql-lead-1e12e222364e",
+      "category": "tenant_boundary",
+      "title": "Tenant Boundary: GetUser",
+      "endpoint_id": "gql-endpoint-adb397dbee88",
+      "operation_id": "gql-operation-24e99fd85363",
+      "severity": "low",
+      "confidence": "medium",
+      "reason": "Observed operation names or fields indicate tenant boundary review.",
+      "manual_questions": [],
+      "evidence": "",
+      "redacted_evidence": "",
+      "created_at": "2026-06-14T03:20:32.431663Z"
+    }
+  ],
+  "source_files": [
+    "fixtures/graphql/fake_folder/app.js",
+    "fixtures/graphql/fake_folder/query.graphql"
+  ],
+  "generated_at": "2026-06-14T03:20:32.429705Z",
+  "summary": {
+    "sources_analyzed": 2,
+    "endpoints": 1,
+    "operations": 2,
+    "variables": 3,
+    "fragments": 1,
+    "schema_artifacts": 0,
+    "review_leads": 5,
+    "mode": "passive/local-only"
+  }
+}

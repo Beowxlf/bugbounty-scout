@@ -1,0 +1,1 @@
+{"data":{"__schema":{"queryType":{"name":"Query"},"mutationType":{"name":"Mutation"},"subscriptionType":null,"types":[{"name":"Query","fields":[{"name":"user"},{"name":"invoice"}]},{"name":"Mutation","fields":[{"name":"updateUserRole"},{"name":"deleteFile"}]},{"name":"User","fields":[{"name":"email"},{"name":"roles"},{"name":"permissions"}]}]}}}

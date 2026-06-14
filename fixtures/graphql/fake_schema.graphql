@@ -1,0 +1,5 @@
+type Query { user(id: ID!): User invoice(invoiceId: ID!): Invoice }
+type Mutation { updateUserRole(userId: ID!, roleId: ID!): User deleteFile(fileId: ID!): Boolean }
+type Subscription { accountChanged(accountId: ID!): Account }
+type User { id: ID! email: String roles: [String!]! permissions: [String!]! }
+type Invoice { id: ID! paymentMethod: String billing: String }
