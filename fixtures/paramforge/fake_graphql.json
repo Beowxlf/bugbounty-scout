@@ -1,0 +1,1 @@
+{"operationName":"InviteMember","query":"mutation InviteMember($organizationId: ID!, $roleId: ID!) { inviteMember }","variables":{"organizationId":"public-org","roleId":"public-role"}}

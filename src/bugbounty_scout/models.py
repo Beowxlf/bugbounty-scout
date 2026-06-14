@@ -434,3 +434,64 @@ class AuthzMatrix(BaseModel):
     findings: list[AuthzFinding] = Field(default_factory=list)
     generated_at: datetime = Field(default_factory=utc_now)
     summary: dict[str, Any] = Field(default_factory=dict)
+
+
+class VocabularyCategory(StrEnum):
+    QUERY_PARAM = "query_param"
+    BODY_PARAM = "body_param"
+    JSON_KEY = "json_key"
+    RESPONSE_KEY = "response_key"
+    FORM_FIELD = "form_field"
+    HEADER_NAME = "header_name"
+    COOKIE_NAME = "cookie_name"
+    ROUTE_SEGMENT = "route_segment"
+    ENDPOINT_PATH = "endpoint_path"
+    OBJECT_NAME = "object_name"
+    GRAPHQL_VARIABLE = "graphql_variable"
+    GRAPHQL_OPERATION = "graphql_operation"
+    JAVASCRIPT_IDENTIFIER = "javascript_identifier"
+    ERROR_FIELD = "error_field"
+    AUTH_TERM = "auth_term"
+    ADMIN_TERM = "admin_term"
+    BILLING_TERM = "billing_term"
+    FILE_TERM = "file_term"
+    ORGANIZATION_TERM = "organization_term"
+    ROLE_PERMISSION_TERM = "role_permission_term"
+    DEBUG_TERM = "debug_term"
+    UNKNOWN = "unknown"
+
+
+class VocabularyTerm(BaseModel):
+    id: str = Field(min_length=1)
+    value: str = Field(min_length=1)
+    normalized_value: str = Field(min_length=1)
+    category: VocabularyCategory = VocabularyCategory.UNKNOWN
+    source_type: str = ""
+    source_file: str = ""
+    source_module: str = "paramforge"
+    context: str = ""
+    occurrences: int = Field(default=1, ge=1)
+    risk_score: int = Field(default=0, ge=0, le=100)
+    frequency_score: int = Field(default=1, ge=0, le=100)
+    tags: list[str] = Field(default_factory=list)
+    evidence: str = ""
+    redacted_evidence: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class VocabularyInventory(BaseModel):
+    project_name: str = "BugBountyScout ParamForge inventory"
+    terms: list[VocabularyTerm] = Field(default_factory=list)
+    categories: dict[str, int] = Field(default_factory=dict)
+    source_files: list[str] = Field(default_factory=list)
+    generated_at: datetime = Field(default_factory=utc_now)
+    summary: dict[str, Any] = Field(default_factory=dict)
+
+
+class WordlistExport(BaseModel):
+    name: str
+    category: str
+    terms: list[str] = Field(default_factory=list)
+    output_format: str
+    generated_at: datetime = Field(default_factory=utc_now)
+    source_inventory: str = ""

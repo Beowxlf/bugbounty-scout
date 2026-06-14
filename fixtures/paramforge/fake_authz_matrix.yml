@@ -1,0 +1,26 @@
+project_name: Fake authz
+actors:
+  - id: actor-1
+    name: Analyst
+    role: organization_admin
+objects:
+  - id: object-1
+    object_type: invoice
+    display_name: Fake invoice
+    owner_actor_id: actor-1
+    identifiers:
+      invoiceId: redacted
+endpoint_templates:
+  - id: endpoint-1
+    method: GET
+    path_template: /api/v1/organizations/{organizationId}/invoices/{invoiceId}
+    normalized_path: /api/v1/organizations/{organizationId}/invoices/{invoiceId}
+    risk_tags: [idor-candidate, billing]
+    object_id_candidates: [organizationId, invoiceId]
+expected_access:
+  - id: expected-1
+    actor_id: actor-1
+    object_id: object-1
+    endpoint_template_id: endpoint-1
+    expected_result: deny
+    boundary_type: organization
