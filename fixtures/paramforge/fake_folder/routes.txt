@@ -1,0 +1,2 @@
+/api/v2/internal/debug/status
+/api/v2/files/upload

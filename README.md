@@ -18,7 +18,7 @@ It is a passive-first workbench, not an exploit framework, mass scanner,
 authentication bypass tool, WAF evasion tool, credential validator, or data
 exfiltration utility. Phase 1 makes no network requests.
 
-## Phase 1.5, Phase 2A, Phase 2B, Phase 2C, and Phase 2D features
+## Phase 1.5 through Phase 2F features
 
 - Typer-based `bbs` CLI
 - Local workspace creation and configuration
@@ -44,6 +44,36 @@ exfiltration utility. Phase 1 makes no network requests.
 - Client storage, DOM source/sink proximity, and `postMessage` manual-review leads
 - Manual IDOR/BOLA matrices for actors, objects, endpoint templates, expected
   and observed access, evidence references, conservative findings, and checklists
+- Evidence Locker workspaces, redacted evidence exports, and report quality gates
+- ParamForge passive vocabulary extraction from HAR, frontend files, source maps,
+  endpoint/frontend inventories, authorization matrices, and evidence workspaces
+- Names-only ParamForge reports and TXT/CSV/JSON wordlist exports with frequency
+  scoring, risk scoring, thematic tags, filtering, and safe normalization
+
+### ParamForge examples
+
+```bash
+bbs paramforge scan-har fixtures/paramforge/fake_api.har
+bbs paramforge scan-file fixtures/paramforge/fake_frontend.js
+bbs paramforge scan-folder fixtures/paramforge/fake_folder
+bbs paramforge scan-inventory fixtures/paramforge/fake_endpoint_inventory.json
+bbs paramforge report vocabulary.json --format markdown
+bbs paramforge export vocabulary.json --category params --format txt
+bbs paramforge export-all vocabulary.json --output-dir wordlists
+bbs paramforge stats vocabulary.json
+```
+
+ParamForge builds target-specific names for authorized manual endpoint review,
+API documentation, authorization planning, and later manual configuration of
+tools such as Burp Intruder or ffuf. ParamForge does not invoke those tools.
+Exports exclude captured values and redact obvious secrets, cookies, JWTs,
+authorization material, PII, and session identifiers by default.
+
+This phase performs no live fetching, replay, fuzzing, payload generation,
+scanning, bypass attempts, cloud calls, telemetry, or secret validation.
+Heuristic extraction can produce false positives and does not prove that a
+route, parameter, or vulnerability exists. Review every export and remain
+within program scope. See [the ParamForge guide](docs/paramforge.md).
 
 Phase 1.5 keeps Hatchling as the small standards-based packaging backend and
 declares all runtime and development dependencies in `pyproject.toml`. CI and

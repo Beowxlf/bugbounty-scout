@@ -1,0 +1,14 @@
+id: evidence-fake
+title: Cross-organization invoice access
+finding_type: idor
+affected_assets: [https://app.example.test/api/v1/invoices/123]
+tags: [billing, organization, idor]
+reproduction_steps:
+  - id: step-001
+    order: 1
+    action: Replace invoiceId in the authorized manual request.
+evidence_items:
+  - id: evidence-1
+    type: redacted_response
+    title: Redacted invoice response
+    redacted_evidence_text: '{"invoiceId":"<redacted-secret>","ownerId":"<redacted-secret>"}'
