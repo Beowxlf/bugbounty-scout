@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+python -m pip install --upgrade pip
+python -m pip install -e '.[dev]'
+ruff check .
+ruff format --check .
+python -m compileall -q src tests
+python -m pytest
+bbs --help
+bbs doctor
+bbs har summary fixtures/fake.har
+bbs endpoints from-har fixtures/endpoints/simple_api.har
+bbs frontend scan-file fixtures/frontend/fake_frontend.js
+bbs auth-surface scan-har fixtures/auth_surface/fake_auth.har
+bbs graphql scan-har fixtures/graphql/fake_graphql.har
+bbs paramforge scan-har fixtures/paramforge/fake_api.har
+bbs correlate scan fixtures/correlate/fake_project_folder
+rm -rf demo-validation
+bbs demo init demo-validation
+bbs demo status demo-validation
+bbs demo clean demo-validation
