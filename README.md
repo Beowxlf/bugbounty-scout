@@ -18,7 +18,7 @@ It is a passive-first workbench, not an exploit framework, mass scanner,
 authentication bypass tool, WAF evasion tool, credential validator, or data
 exfiltration utility. Phase 1 makes no network requests.
 
-## Phase 1.5 through Phase 2H features
+## Completed capabilities (Phase 1 through Phase 3A)
 
 - Typer-based `bbs` CLI
 - Local workspace creation and configuration
@@ -51,6 +51,10 @@ exfiltration utility. Phase 1 makes no network requests.
   scoring, risk scoring, thematic tags, filtering, and safe normalization
 - GraphQL Risk Mapper for passive endpoint, operation, variable, fragment, local schema/introspection artifact, batching/error-detail, and authorization-lead review
 - Redacted GraphQL Markdown/JSON reports and observation-driven manual testing checklists
+- Project Correlator for combining saved artifacts into conservative triage leads
+- `bbs doctor` for network-free local environment readiness checks
+- `bbs demo` for generating a self-contained synthetic passive-workflow project
+- End-to-end fixture tests, release checklists, and installed/PYTHONPATH smoke scripts
 
 ### GraphQL Risk Mapper examples
 
@@ -111,7 +115,47 @@ cd bugbounty-scout
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -e ".[dev]"
+bbs --help
+bbs doctor
 ```
+
+Hatchling remains the standards-based build backend. The package targets Python
+3.11, 3.12, and 3.13, includes the `bugbounty_scout` package from `src`, and
+declares Typer, Pydantic, PyYAML, and Rich as runtime dependencies. Pytest and
+Ruff are available through the `dev` extra.
+
+### Installation troubleshooting and restricted networks
+
+If editable installation fails, read the complete pip error first. Some managed
+package indexes/proxies return `403 Forbidden` while resolving Hatchling. That
+is an environment/index access problem and is not a reason by itself to change
+the project's build backend.
+
+For an offline or restricted-network test bench, pre-download the build/runtime
+dependencies into an approved wheelhouse, then install with your organization's
+documented `--no-index --find-links` process. When dependencies are already
+available in the environment, run the source-tree fallback:
+
+```bash
+PYTHONPATH=src python -m bugbounty_scout.cli --help
+PYTHONPATH=src python -m bugbounty_scout.cli doctor
+bash scripts/smoke_py_path.sh
+```
+
+This fallback validates module execution but **does not** validate editable
+installation or the generated `bbs` console script. After installation succeeds,
+validate those separately:
+
+```bash
+python -m pip show bugbounty-scout
+bbs --version
+bbs --help
+bbs doctor
+```
+
+Run the complete clean-environment test bench with
+`bash scripts/test_bench_validation.sh` (or the PowerShell equivalent). See
+[the release checklist](docs/release-checklist.md) for release gates.
 
 ## CLI examples
 
@@ -274,21 +318,37 @@ See [docs/safety.md](docs/safety.md),
 [docs/graphql-risk-mapper.md](docs/graphql-risk-mapper.md), and
 [SECURITY.md](SECURITY.md).
 
-## Planned modules
+## Roadmap
 
-HAR Analyzer, Passive Endpoint Mapper, Frontend Exposure Analyzer, IDOR/BOLA Matrix, Evidence Locker, ParamForge, Auth Surface Analyzer, and GraphQL Risk Mapper are implemented through Phase 2H.
-Possible next passive-first
-modules, subject to the same authorization and redaction boundaries, include:
+### Completed
 
-- ParamForge
-- JWT Risk Inspector
-- Header/Cookie Auditor
-- CORS Auditor
-- Evidence Locker
-- ReportForge
+- Phase 1 foundation and shared safety/redaction/reporting architecture.
+- Phase 2A–2I passive analyzers, manual authorization/evidence workflows, and
+  Project Correlator.
+- Phase 3A release hardening, doctor checks, synthetic demo packaging,
+  end-to-end validation, command reference, and release test bench.
 
-No active scanning, Burp integration, desktop UI, MCP integration, secret
-validation, or cloud service is included.
+### In progress
+
+- Documentation polish, compatibility review, and conservative false-positive
+  reduction within existing passive modules.
+
+### Planned
+
+- Additional report/workflow ergonomics that preserve local-only,
+  passive/manual-first operation.
+- Future integrations only after separate design and safety review; none are
+  included in Phase 3A.
+
+### Not planned
+
+- Exploit automation or mass scanning.
+- WAF bypass or stealth/evasion tooling.
+- JWT attacks or credential validation against provider APIs.
+- CORS exploit pages.
+- GraphQL denial-of-service testing.
+- Authentication, anti-bot, rate-limit, or program-restriction bypass.
+- Cloud calls, telemetry, credential theft PoCs, or automatic request replay.
 
 ## Development and testing
 
