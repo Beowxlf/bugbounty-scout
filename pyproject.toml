@@ -56,6 +56,7 @@ ignore = ["B008"] # Typer uses Option calls as declarative parameter defaults.
 "src/bugbounty_scout/commands/authz_cmd.py" = ["E501"]
 "src/bugbounty_scout/modules/authz_matrix.py" = ["E501"]
 "tests/test_authz.py" = ["E501"]
+"src/bugbounty_scout/modules/auth_surface.py" = ["E501"]
 
 [tool.ruff.format]
 quote-style = "double"

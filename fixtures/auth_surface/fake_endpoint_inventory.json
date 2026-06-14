@@ -1,0 +1,20 @@
+{
+  "project_name": "fake",
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/api/login",
+      "normalized_path": "/api/login"
+    },
+    {
+      "method": "GET",
+      "path": "/oauth/callback",
+      "normalized_path": "/oauth/callback"
+    },
+    {
+      "method": "POST",
+      "path": "/password-reset",
+      "normalized_path": "/password-reset"
+    }
+  ]
+}

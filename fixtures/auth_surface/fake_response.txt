@@ -1,0 +1,6 @@
+HTTP/1.1 200 OK
+Set-Cookie: session_id=fake-session; Path=/
+Set-Cookie: csrf_token=fake-csrf; Path=/; SameSite=Lax
+Content-Type: application/json
+
+{"email":"fake@example.test"}

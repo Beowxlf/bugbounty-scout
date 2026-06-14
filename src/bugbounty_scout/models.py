@@ -488,6 +488,138 @@ class VocabularyInventory(BaseModel):
     summary: dict[str, Any] = Field(default_factory=dict)
 
 
+class JwtObservation(BaseModel):
+    id: str
+    token_fingerprint: str
+    source_type: str = ""
+    source_file: str = ""
+    source_module: str = "auth-surface-analyzer"
+    location: str = ""
+    algorithm: str = ""
+    token_type: str = ""
+    key_id: str = ""
+    issuer: str = ""
+    subject_present: bool = False
+    audience: list[str] = Field(default_factory=list)
+    issued_at: datetime | None = None
+    not_before: datetime | None = None
+    expires_at: datetime | None = None
+    lifetime_seconds: int | None = None
+    scopes: list[str] = Field(default_factory=list)
+    roles: list[str] = Field(default_factory=list)
+    permissions: list[str] = Field(default_factory=list)
+    tenant_claims: list[str] = Field(default_factory=list)
+    org_claims: list[str] = Field(default_factory=list)
+    sensitive_claims: list[str] = Field(default_factory=list)
+    custom_claim_keys: list[str] = Field(default_factory=list)
+    risk_tags: list[str] = Field(default_factory=list)
+    severity: Severity = Severity.INFO
+    confidence: Confidence = Confidence.HIGH
+    evidence: str = ""
+    redacted_evidence: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class CookieObservation(BaseModel):
+    id: str
+    name: str
+    source_type: str = ""
+    source_file: str = ""
+    source_module: str = "auth-surface-analyzer"
+    location: str = ""
+    cookie_type: str = "unknown"
+    domain: str = ""
+    path: str = ""
+    secure: bool | None = None
+    httponly: bool | None = None
+    samesite: str = ""
+    expires: str = ""
+    max_age: int | None = None
+    prefix: str = ""
+    risk_tags: list[str] = Field(default_factory=list)
+    severity: Severity = Severity.INFO
+    confidence: Confidence = Confidence.HIGH
+    evidence: str = ""
+    redacted_evidence: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class SecurityHeaderObservation(BaseModel):
+    id: str
+    header_name: str
+    value_summary: str = ""
+    source_type: str = ""
+    source_file: str = ""
+    source_module: str = "auth-surface-analyzer"
+    url: str = ""
+    status_code: int | None = None
+    risk_tags: list[str] = Field(default_factory=list)
+    severity: Severity = Severity.INFO
+    confidence: Confidence = Confidence.HIGH
+    evidence: str = ""
+    redacted_evidence: str = ""
+    recommendation: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class CorsObservation(BaseModel):
+    id: str
+    source_type: str = ""
+    source_file: str = ""
+    source_module: str = "auth-surface-analyzer"
+    url: str = ""
+    allow_origin: str = ""
+    allow_credentials: bool = False
+    allow_methods: list[str] = Field(default_factory=list)
+    allow_headers: list[str] = Field(default_factory=list)
+    expose_headers: list[str] = Field(default_factory=list)
+    vary: str = ""
+    risk_tags: list[str] = Field(default_factory=list)
+    severity: Severity = Severity.INFO
+    confidence: Confidence = Confidence.HIGH
+    evidence: str = ""
+    redacted_evidence: str = ""
+    recommendation: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class CacheObservation(BaseModel):
+    id: str
+    source_type: str = ""
+    source_file: str = ""
+    source_module: str = "auth-surface-analyzer"
+    url: str = ""
+    status_code: int | None = None
+    cache_control: str = ""
+    pragma: str = ""
+    expires: str = ""
+    content_type: str = ""
+    sensitive_context: bool = False
+    risk_tags: list[str] = Field(default_factory=list)
+    severity: Severity = Severity.INFO
+    confidence: Confidence = Confidence.MEDIUM
+    evidence: str = ""
+    redacted_evidence: str = ""
+    recommendation: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class AuthSurfaceInventory(BaseModel):
+    project_name: str = "BugBountyScout Auth Surface inventory"
+    jwt_observations: list[JwtObservation] = Field(default_factory=list)
+    cookie_observations: list[CookieObservation] = Field(default_factory=list)
+    security_header_observations: list[SecurityHeaderObservation] = Field(
+        default_factory=list
+    )
+    cors_observations: list[CorsObservation] = Field(default_factory=list)
+    cache_observations: list[CacheObservation] = Field(default_factory=list)
+    auth_endpoints: list[Endpoint] = Field(default_factory=list)
+    session_review_leads: list[str] = Field(default_factory=list)
+    source_files: list[str] = Field(default_factory=list)
+    generated_at: datetime = Field(default_factory=utc_now)
+    summary: dict[str, Any] = Field(default_factory=dict)
+
+
 class WordlistExport(BaseModel):
     name: str
     category: str
