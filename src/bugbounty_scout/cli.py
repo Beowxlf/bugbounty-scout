@@ -7,6 +7,7 @@ from rich.console import Console
 
 from bugbounty_scout import __version__
 from bugbounty_scout.commands import (
+    authz_cmd,
     endpoints_cmd,
     frontend_cmd,
     har_cmd,
@@ -26,6 +27,7 @@ app.add_typer(report_cmd.app, name="report")
 app.add_typer(har_cmd.app, name="har")
 app.add_typer(endpoints_cmd.app, name="endpoints")
 app.add_typer(frontend_cmd.app, name="frontend")
+app.add_typer(authz_cmd.app, name="authz")
 app.command("redact")(redact_file)
 console = Console()
 

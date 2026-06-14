@@ -1,0 +1,7 @@
+expected_access:
+  - actor_id: actor-user-b
+    object_id: object-invoice-a
+    endpoint_template_id: endpoint-invoice
+    expected_result: deny
+    boundary_type: user
+    reason: User B does not own User A's invoice.

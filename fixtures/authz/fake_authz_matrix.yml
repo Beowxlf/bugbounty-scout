@@ -1,0 +1,36 @@
+project_name: Synthetic authorization review
+actors:
+  - {id: actor-user-a, name: User A, role: user, organization: Org A, tenant: Tenant A}
+  - {id: actor-user-b, name: User B, role: user, organization: Org A, tenant: Tenant A}
+  - {id: actor-admin, name: Admin, role: admin, organization: Org A, tenant: Tenant A}
+  - {id: actor-org-owner, name: Org Owner, role: owner, organization: Org A, tenant: Tenant A}
+  - {id: actor-org-member, name: Org Member, role: member, organization: Org B, tenant: Tenant A}
+  - {id: actor-tenant-a, name: Tenant A user, role: user, organization: Org A, tenant: Tenant A}
+  - {id: actor-tenant-b, name: Tenant B user, role: user, organization: Org B, tenant: Tenant B}
+objects:
+  - {id: object-invoice-a, object_type: invoice, display_name: Invoice A, owner_actor_id: actor-user-a, organization: Org A, tenant: Tenant A, identifiers: {invoiceId: inv_123}, sensitivity: high}
+  - {id: object-file-a, object_type: file, display_name: File A, owner_actor_id: actor-user-a, organization: Org A, tenant: Tenant A, identifiers: {fileId: file_789}, sensitivity: high}
+  - {id: object-project-a, object_type: project, display_name: Project A, owner_actor_id: actor-user-a, organization: Org A, tenant: Tenant A, identifiers: {projectId: project_123}, sensitivity: medium}
+  - {id: object-org-settings, object_type: organization, display_name: Org A settings, owner_actor_id: actor-org-owner, organization: Org A, tenant: Tenant A, identifiers: {orgId: org_abc}, sensitivity: high}
+endpoint_templates:
+  - {id: endpoint-invoice, method: GET, path_template: '/api/invoices/{invoiceId}', normalized_path: '/api/invoices/{invoiceId}', risk_tags: [idor-candidate, billing, sensitive-data], object_id_candidates: [invoiceId]}
+  - {id: endpoint-file, method: GET, path_template: '/api/files/{fileId}', normalized_path: '/api/files/{fileId}', risk_tags: [idor-candidate, file-download], object_id_candidates: [fileId]}
+  - {id: endpoint-project, method: PATCH, path_template: '/api/projects/{projectId}', normalized_path: '/api/projects/{projectId}', risk_tags: [idor-candidate, state-changing], object_id_candidates: [projectId]}
+  - {id: endpoint-org-settings, method: GET, path_template: '/api/orgs/{orgId}/settings', normalized_path: '/api/orgs/{orgId}/settings', risk_tags: [organization-management, sensitive-data], object_id_candidates: [orgId]}
+  - {id: endpoint-admin, method: GET, path_template: /api/admin/users, normalized_path: /api/admin/users, risk_tags: [admin], object_id_candidates: []}
+  - {id: endpoint-billing, method: GET, path_template: '/api/orgs/{orgId}/billing', normalized_path: '/api/orgs/{orgId}/billing', risk_tags: [billing, organization-management], object_id_candidates: [orgId]}
+expected_access:
+  - {id: expect-cross-user, actor_id: actor-user-b, object_id: object-invoice-a, endpoint_template_id: endpoint-invoice, expected_result: deny, reason: Different owner, boundary_type: user}
+  - {id: expect-cross-org, actor_id: actor-org-member, object_id: object-org-settings, endpoint_template_id: endpoint-org-settings, expected_result: deny, reason: Different organization, boundary_type: organization}
+  - {id: expect-cross-tenant, actor_id: actor-tenant-b, object_id: object-file-a, endpoint_template_id: endpoint-file, expected_result: deny, reason: Different tenant, boundary_type: tenant}
+  - {id: expect-mutation, actor_id: actor-user-b, object_id: object-project-a, endpoint_template_id: endpoint-project, expected_result: deny, reason: Different owner cannot mutate, boundary_type: ownership}
+  - {id: expect-admin-allow, actor_id: actor-admin, object_id: object-org-settings, endpoint_template_id: endpoint-admin, expected_result: allow, reason: Admin should access scoped administration, boundary_type: role}
+observed_results:
+  - {id: observed-cross-user, actor_id: actor-user-b, object_id: object-invoice-a, endpoint_template_id: endpoint-invoice, observed_result: allowed, status_code: 200, response_length: 512, key_fields_visible: [amount, owner], evidence_reference: evidence/redacted-invoice.txt, notes: 'Authorization: Bearer fake-sensitive-token'}
+  - {id: observed-cross-org, actor_id: actor-org-member, object_id: object-org-settings, endpoint_template_id: endpoint-org-settings, observed_result: allowed, status_code: 200, key_fields_visible: [billing_email], evidence_reference: evidence/redacted-org-settings.txt}
+  - {id: observed-cross-tenant, actor_id: actor-tenant-b, object_id: object-file-a, endpoint_template_id: endpoint-file, observed_result: allowed, status_code: 200, evidence_reference: evidence/redacted-file.txt}
+  - {id: observed-mutation, actor_id: actor-user-b, object_id: object-project-a, endpoint_template_id: endpoint-project, observed_result: allowed, status_code: 200, data_changed: true, evidence_reference: evidence/redacted-project-change.txt}
+  - {id: observed-admin-denied, actor_id: actor-admin, object_id: object-org-settings, endpoint_template_id: endpoint-admin, observed_result: denied, status_code: 403, error_message: 'Contact fake@example.test'}
+findings: []
+summary:
+  safety_notice: Authorized synthetic fixture; manual testing only; no requests are sent.

@@ -18,7 +18,7 @@ It is a passive-first workbench, not an exploit framework, mass scanner,
 authentication bypass tool, WAF evasion tool, credential validator, or data
 exfiltration utility. Phase 1 makes no network requests.
 
-## Phase 1.5, Phase 2A, Phase 2B, and Phase 2C features
+## Phase 1.5, Phase 2A, Phase 2B, Phase 2C, and Phase 2D features
 
 - Typer-based `bbs` CLI
 - Local workspace creation and configuration
@@ -42,6 +42,8 @@ exfiltration utility. Phase 1 makes no network requests.
 - Redacted secret/config classification, runtime config and sensitive-comment detection
 - Source-map parsing with embedded source paths, routes, and API client hints
 - Client storage, DOM source/sink proximity, and `postMessage` manual-review leads
+- Manual IDOR/BOLA matrices for actors, objects, endpoint templates, expected
+  and observed access, evidence references, conservative findings, and checklists
 
 Phase 1.5 keeps Hatchling as the small standards-based packaging backend and
 declares all runtime and development dependencies in `pyproject.toml`. CI and
@@ -93,6 +95,19 @@ bbs frontend dom-leads app.js
 bbs frontend postmessage app.js
 bbs frontend report frontend/ --format markdown
 bbs frontend report frontend/ --format json
+bbs authz init demo
+bbs authz add-actor demo-authz-matrix.yml --name "User A" --role user
+bbs authz add-object demo-authz-matrix.yml --type invoice --name "Invoice A" \
+  --owner <generated-actor-id> --identifier invoiceId=inv_123
+bbs authz import-endpoints demo-authz-matrix.yml endpoint-inventory.json
+bbs authz expect demo-authz-matrix.yml --actor <actor-id> --object <object-id> \
+  --endpoint <endpoint-id> --result deny --reason "Different owner"
+bbs authz record demo-authz-matrix.yml --actor <actor-id> --object <object-id> \
+  --endpoint <endpoint-id> --result allowed --evidence evidence/redacted.txt
+bbs authz compare demo-authz-matrix.yml
+bbs authz findings demo-authz-matrix.yml
+bbs authz checklist demo-authz-matrix.yml --format markdown
+bbs authz report demo-authz-matrix.yml --format json
 ```
 
 Commands read `scope.yml` from the current workspace. Output paths can be
@@ -184,14 +199,29 @@ risk tags are not confirmed vulnerabilities.
 
 Phase 2C reads only supplied local frontend artifacts. It classifies public identifiers conservatively, redacts sensitive values, parses local source maps, and produces manual-review leads rather than vulnerability claims. It does not fetch source maps, validate secrets, generate XSS payloads, crawl sites, or perform active testing.
 
+Phase 2D is a manual authorization testing workbench. It imports only
+high-interest Endpoint Mapper records by default and documents expected versus
+manually observed access. It never sends or replays requests, creates payloads,
+fuzzes identifiers, validates secrets, or bypasses controls. Test only accounts
+and synthetic data explicitly permitted by program rules, use the smallest
+necessary test cases, and avoid destructive actions.
+
+Matrix files and reports redact sensitive-looking strings by default. Do not put
+passwords, cookies, tokens, sessions, raw private responses, or live credentials
+in actor metadata or notes. Evidence is represented by a local path or future
+Evidence Locker identifier; full Evidence Locker management is not included.
+
 See [docs/safety.md](docs/safety.md),
 [docs/har-analyzer.md](docs/har-analyzer.md),
 [docs/endpoint-mapper.md](docs/endpoint-mapper.md),
-[docs/frontend-exposure-analyzer.md](docs/frontend-exposure-analyzer.md), and [SECURITY.md](SECURITY.md).
+[docs/frontend-exposure-analyzer.md](docs/frontend-exposure-analyzer.md),
+[docs/idor-bola-matrix.md](docs/idor-bola-matrix.md), and
+[SECURITY.md](SECURITY.md).
 
 ## Planned modules
 
-HAR Analyzer, Passive Endpoint Mapper, and Frontend Exposure Analyzer are implemented through Phase 2C.
+HAR Analyzer, Passive Endpoint Mapper, Frontend Exposure Analyzer, and the
+IDOR/BOLA Matrix are implemented through Phase 2D.
 Possible next passive-first
 modules, subject to the same authorization and redaction boundaries, include:
 
@@ -200,7 +230,6 @@ modules, subject to the same authorization and redaction boundaries, include:
 - Header/Cookie Auditor
 - CORS Auditor
 - GraphQL Risk Mapper
-- IDOR/BOLA Matrix
 - Evidence Locker
 - ReportForge
 

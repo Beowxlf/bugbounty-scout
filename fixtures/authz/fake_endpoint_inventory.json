@@ -1,0 +1,30 @@
+{
+  "project_name": "Synthetic endpoint inventory",
+  "endpoints": [
+    {
+      "id": "ep-invoice",
+      "method": "GET",
+      "path": "/api/invoices/123",
+      "normalized_path": "/api/invoices/{id}",
+      "risk_tags": ["idor-candidate", "billing", "sensitive-data"],
+      "object_id_candidates": ["invoiceId"],
+      "source_file": "fixtures/endpoints/simple_api.har"
+    },
+    {
+      "id": "ep-admin",
+      "method": "GET",
+      "path": "/api/admin/users",
+      "normalized_path": "/api/admin/users",
+      "risk_tags": ["admin"],
+      "source_file": "fixtures/frontend/fake_frontend.js"
+    },
+    {
+      "id": "ep-static",
+      "method": "GET",
+      "path": "/static/app.js",
+      "normalized_path": "/static/app.js",
+      "risk_tags": [],
+      "source_file": "fixtures/frontend/fake_frontend.js"
+    }
+  ]
+}

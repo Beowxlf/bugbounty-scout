@@ -1,0 +1,7 @@
+observed_results:
+  - actor_id: actor-user-b
+    object_id: object-invoice-a
+    endpoint_template_id: endpoint-invoice
+    observed_result: allowed
+    status_code: 200
+    evidence_reference: evidence/redacted-invoice-response.txt

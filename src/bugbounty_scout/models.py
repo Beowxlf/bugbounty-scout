@@ -206,3 +206,132 @@ class FrontendInventory(BaseModel):
     postmessage_leads: list[PostMessageLead] = Field(default_factory=list)
     generated_at: datetime = Field(default_factory=utc_now)
     summary: dict[str, Any] = Field(default_factory=dict)
+
+
+class ExpectedResult(StrEnum):
+    ALLOW = "allow"
+    DENY = "deny"
+    UNKNOWN = "unknown"
+
+
+class ObservedResult(StrEnum):
+    ALLOWED = "allowed"
+    DENIED = "denied"
+    ERROR = "error"
+    UNKNOWN = "unknown"
+    NOT_TESTED = "not_tested"
+
+
+class BoundaryType(StrEnum):
+    USER = "user"
+    ORGANIZATION = "organization"
+    TENANT = "tenant"
+    ROLE = "role"
+    SUBSCRIPTION = "subscription"
+    OWNERSHIP = "ownership"
+    UNKNOWN = "unknown"
+
+
+class AuthzFindingType(StrEnum):
+    IDOR = "idor"
+    BOLA = "bola"
+    BROKEN_ROLE_AUTHORIZATION = "broken_role_authorization"
+    CROSS_TENANT_ACCESS = "cross_tenant_access"
+    CROSS_ORG_ACCESS = "cross_org_access"
+    STATE_CHANGING_AUTHZ_FAILURE = "state_changing_authz_failure"
+    SENSITIVE_METADATA_EXPOSURE = "sensitive_metadata_exposure"
+    NEEDS_MANUAL_REVIEW = "needs_manual_review"
+
+
+class AuthzActor(BaseModel):
+    id: str = Field(min_length=1)
+    name: str = Field(min_length=1)
+    role: str = Field(min_length=1)
+    organization: str = ""
+    tenant: str = ""
+    account_type: str = ""
+    notes: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class AuthzObject(BaseModel):
+    id: str = Field(min_length=1)
+    object_type: str = Field(min_length=1)
+    display_name: str = Field(min_length=1)
+    owner_actor_id: str = Field(min_length=1)
+    organization: str = ""
+    tenant: str = ""
+    identifiers: dict[str, str] = Field(default_factory=dict)
+    sensitivity: str = "unknown"
+    notes: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class AuthzEndpointTemplate(BaseModel):
+    id: str = Field(min_length=1)
+    method: str = "UNKNOWN"
+    path_template: str = Field(min_length=1)
+    normalized_path: str = Field(min_length=1)
+    risk_tags: list[str] = Field(default_factory=list)
+    object_id_candidates: list[str] = Field(default_factory=list)
+    source_endpoint_id: str = ""
+    source_file: str = ""
+    notes: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class ExpectedAccessRule(BaseModel):
+    id: str = Field(min_length=1)
+    actor_id: str = Field(min_length=1)
+    object_id: str = Field(min_length=1)
+    endpoint_template_id: str = Field(min_length=1)
+    expected_result: ExpectedResult
+    reason: str = ""
+    boundary_type: BoundaryType = BoundaryType.UNKNOWN
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class ObservedAccessResult(BaseModel):
+    id: str = Field(min_length=1)
+    actor_id: str = Field(min_length=1)
+    object_id: str = Field(min_length=1)
+    endpoint_template_id: str = Field(min_length=1)
+    observed_result: ObservedResult
+    status_code: int | None = None
+    response_length: int | None = None
+    content_hash: str = ""
+    key_fields_visible: list[str] = Field(default_factory=list)
+    data_changed: bool | None = None
+    error_message: str = ""
+    evidence_reference: str = ""
+    notes: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class AuthzFinding(BaseModel):
+    id: str = Field(min_length=1)
+    title: str = Field(min_length=1)
+    finding_type: AuthzFindingType
+    severity: Severity
+    confidence: Confidence
+    actor_id: str
+    object_id: str
+    endpoint_template_id: str
+    expected_result: ExpectedResult
+    observed_result: ObservedResult
+    evidence_reference: str = ""
+    impact: str = ""
+    recommendation: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class AuthzMatrix(BaseModel):
+    project_name: str = Field(min_length=1)
+    actors: list[AuthzActor] = Field(default_factory=list)
+    objects: list[AuthzObject] = Field(default_factory=list)
+    endpoint_templates: list[AuthzEndpointTemplate] = Field(default_factory=list)
+    expected_access: list[ExpectedAccessRule] = Field(default_factory=list)
+    observed_results: list[ObservedAccessResult] = Field(default_factory=list)
+    findings: list[AuthzFinding] = Field(default_factory=list)
+    generated_at: datetime = Field(default_factory=utc_now)
+    summary: dict[str, Any] = Field(default_factory=dict)
