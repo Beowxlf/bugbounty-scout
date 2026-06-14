@@ -1,0 +1,52 @@
+{
+  "project_name": "Synthetic",
+  "jwt_observations": [
+    {
+      "id": "jwt-1",
+      "url": "https://app.example.test/api/users/123",
+      "risk_tags": [
+        "admin-role-claim",
+        "jwt-long-lifetime"
+      ],
+      "severity": "medium",
+      "confidence": "high",
+      "redacted_evidence": "JWT claims redacted"
+    }
+  ],
+  "cookie_observations": [
+    {
+      "id": "cookie-1",
+      "url": "https://app.example.test/auth/session",
+      "risk_tags": [
+        "missing-httponly"
+      ],
+      "severity": "low",
+      "confidence": "high"
+    }
+  ],
+  "security_header_observations": [
+    {
+      "id": "hdr-1",
+      "url": "https://public.example.test/",
+      "risk_tags": [
+        "missing-header"
+      ],
+      "severity": "info"
+    }
+  ],
+  "cors_observations": [],
+  "cache_observations": [
+    {
+      "id": "cache-1",
+      "url": "https://app.example.test/api/users/123",
+      "risk_tags": [
+        "risky-cache"
+      ],
+      "severity": "medium"
+    }
+  ],
+  "auth_endpoints": [],
+  "session_review_leads": [],
+  "source_files": [],
+  "summary": {}
+}

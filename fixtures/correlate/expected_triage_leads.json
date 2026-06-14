@@ -1,0 +1,205 @@
+[
+  {
+    "id": "lead-75e29d3f6ccd",
+    "title": "Manual review: PATCH app.example.test/api/users/{id}",
+    "category": "idor_bola",
+    "affected_asset_id": "asset-261c2d3a8ab4",
+    "source_signals": [
+      "signal-110a9feefa34",
+      "signal-06ceb879b68f",
+      "signal-a4973486a3d6",
+      "signal-4da7524f081c",
+      "signal-b1bf4e29adbb"
+    ],
+    "priority": "critical",
+    "confidence": "high",
+    "severity_estimate": "high",
+    "reason": "5 passive signal(s) correlate to this asset; classification remains conservative until manual validation.",
+    "manual_validation_steps": [
+      "Confirm the affected asset is in scope.",
+      "Compare expected and observed behavior using an authorized manual workflow.",
+      "Confirm impact without expanding access or collecting unnecessary data."
+    ],
+    "suggested_evidence_to_collect": [
+      "Redacted request/response or local observation reference",
+      "Expected versus actual behavior",
+      "Impact statement and severity rationale"
+    ],
+    "reportability": "report_ready",
+    "related_evidence": [
+      "artifact-2f9a132b733c",
+      "artifact-a58071ba09d4"
+    ],
+    "created_at": "2026-06-14T03:29:58.952532Z"
+  },
+  {
+    "id": "lead-9ef7b657dcd5",
+    "title": "Manual review: POST app.example.test/graphql",
+    "category": "graphql_authorization_review",
+    "affected_asset_id": "asset-579fc606a7e2",
+    "source_signals": [
+      "signal-945e247758ba",
+      "signal-9335e92e099f",
+      "signal-651d20918b02"
+    ],
+    "priority": "low",
+    "confidence": "high",
+    "severity_estimate": "medium",
+    "reason": "3 passive signal(s) correlate to this asset; classification remains conservative until manual validation.",
+    "manual_validation_steps": [
+      "Confirm the affected asset is in scope.",
+      "Compare expected and observed behavior using an authorized manual workflow.",
+      "Confirm impact without expanding access or collecting unnecessary data."
+    ],
+    "suggested_evidence_to_collect": [
+      "Redacted request/response or local observation reference",
+      "Expected versus actual behavior",
+      "Impact statement and severity rationale"
+    ],
+    "reportability": "needs_manual_validation",
+    "related_evidence": [
+      "artifact-5188eea4f8cf"
+    ],
+    "created_at": "2026-06-14T03:29:58.952642Z"
+  },
+  {
+    "id": "lead-eab6bfb872e9",
+    "title": "Manual review: UNKNOWN app.example.test/api/users/{id}",
+    "category": "needs_manual_review",
+    "affected_asset_id": "asset-97f42bfc919b",
+    "source_signals": [
+      "signal-fb5e1f4de692",
+      "signal-3832284f1e40",
+      "signal-825de2943535",
+      "signal-6911573422ec"
+    ],
+    "priority": "low",
+    "confidence": "high",
+    "severity_estimate": "medium",
+    "reason": "4 passive signal(s) correlate to this asset; classification remains conservative until manual validation.",
+    "manual_validation_steps": [
+      "Confirm the affected asset is in scope.",
+      "Compare expected and observed behavior using an authorized manual workflow.",
+      "Confirm impact without expanding access or collecting unnecessary data."
+    ],
+    "suggested_evidence_to_collect": [
+      "Redacted request/response or local observation reference",
+      "Expected versus actual behavior",
+      "Impact statement and severity rationale"
+    ],
+    "reportability": "needs_manual_validation",
+    "related_evidence": [
+      "artifact-16ddc3eacc38",
+      "artifact-6d8142ba6f17"
+    ],
+    "created_at": "2026-06-14T03:29:58.952334Z"
+  },
+  {
+    "id": "lead-56cad9a9f9dd",
+    "title": "Manual review: UNKNOWN public.example.test/",
+    "category": "likely_noise",
+    "affected_asset_id": "asset-b825763b3bda",
+    "source_signals": [
+      "signal-1c380a09f664"
+    ],
+    "priority": "informational",
+    "confidence": "medium",
+    "severity_estimate": "info",
+    "reason": "1 passive signal(s) correlate to this asset; classification remains conservative until manual validation.",
+    "manual_validation_steps": [
+      "Confirm the affected asset is in scope.",
+      "Compare expected and observed behavior using an authorized manual workflow.",
+      "Confirm impact without expanding access or collecting unnecessary data."
+    ],
+    "suggested_evidence_to_collect": [
+      "Redacted request/response or local observation reference",
+      "Expected versus actual behavior",
+      "Impact statement and severity rationale"
+    ],
+    "reportability": "likely_noise",
+    "related_evidence": [],
+    "created_at": "2026-06-14T03:29:58.952438Z"
+  },
+  {
+    "id": "lead-61604e5b0160",
+    "title": "Manual review: UNKNOWN public.example.test/users/{id}",
+    "category": "likely_noise",
+    "affected_asset_id": "asset-f45706f79fad",
+    "source_signals": [
+      "signal-ae9bcc3ecfb5"
+    ],
+    "priority": "informational",
+    "confidence": "medium",
+    "severity_estimate": "info",
+    "reason": "1 passive signal(s) correlate to this asset; classification remains conservative until manual validation.",
+    "manual_validation_steps": [
+      "Confirm the affected asset is in scope.",
+      "Compare expected and observed behavior using an authorized manual workflow.",
+      "Confirm impact without expanding access or collecting unnecessary data."
+    ],
+    "suggested_evidence_to_collect": [
+      "Redacted request/response or local observation reference",
+      "Expected versus actual behavior",
+      "Impact statement and severity rationale"
+    ],
+    "reportability": "likely_noise",
+    "related_evidence": [
+      "artifact-846d3c71b684"
+    ],
+    "created_at": "2026-06-14T03:29:58.952570Z"
+  },
+  {
+    "id": "lead-8c15391ee667",
+    "title": "Manual review: UNKNOWN app.example.test/auth/session",
+    "category": "session_cookie_review",
+    "affected_asset_id": "asset-d97b825e5fe1",
+    "source_signals": [
+      "signal-2aeea181aec6"
+    ],
+    "priority": "informational",
+    "confidence": "medium",
+    "severity_estimate": "low",
+    "reason": "1 passive signal(s) correlate to this asset; classification remains conservative until manual validation.",
+    "manual_validation_steps": [
+      "Confirm the affected asset is in scope.",
+      "Compare expected and observed behavior using an authorized manual workflow.",
+      "Confirm impact without expanding access or collecting unnecessary data."
+    ],
+    "suggested_evidence_to_collect": [
+      "Redacted request/response or local observation reference",
+      "Expected versus actual behavior",
+      "Impact statement and severity rationale"
+    ],
+    "reportability": "needs_more_evidence",
+    "related_evidence": [],
+    "created_at": "2026-06-14T03:29:58.952405Z"
+  },
+  {
+    "id": "lead-bfa067515c38",
+    "title": "Manual review: UNKNOWN app.example.test/admin/users",
+    "category": "likely_noise",
+    "affected_asset_id": "asset-a09a70010b5b",
+    "source_signals": [
+      "signal-ee1630318ea3"
+    ],
+    "priority": "informational",
+    "confidence": "medium",
+    "severity_estimate": "low",
+    "reason": "1 passive signal(s) correlate to this asset; classification remains conservative until manual validation.",
+    "manual_validation_steps": [
+      "Confirm the affected asset is in scope.",
+      "Compare expected and observed behavior using an authorized manual workflow.",
+      "Confirm impact without expanding access or collecting unnecessary data."
+    ],
+    "suggested_evidence_to_collect": [
+      "Redacted request/response or local observation reference",
+      "Expected versus actual behavior",
+      "Impact statement and severity rationale"
+    ],
+    "reportability": "likely_noise",
+    "related_evidence": [
+      "artifact-f6487b89a7c9"
+    ],
+    "created_at": "2026-06-14T03:29:58.952598Z"
+  }
+]

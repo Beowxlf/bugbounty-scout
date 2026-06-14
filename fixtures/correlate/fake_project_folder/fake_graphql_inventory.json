@@ -1,0 +1,35 @@
+{
+  "project_name": "Synthetic",
+  "endpoints": [
+    {
+      "id": "gql-ep",
+      "url": "https://app.example.test/graphql",
+      "host": "app.example.test",
+      "path": "/graphql",
+      "method": "POST",
+      "risk_tags": [
+        "graphql"
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "id": "gql-op",
+      "endpoint_id": "gql-ep",
+      "name": "UpdateInvoice",
+      "operation_type": "mutation",
+      "risk_tags": [
+        "object-id-variable",
+        "sensitive-fields",
+        "state-changing"
+      ],
+      "severity": "medium",
+      "confidence": "high",
+      "redacted_evidence": "mutation UpdateInvoice($invoiceId: ID!)"
+    }
+  ],
+  "schema_artifacts": [],
+  "review_leads": [],
+  "source_files": [],
+  "summary": {}
+}

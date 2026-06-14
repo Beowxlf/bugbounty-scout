@@ -1,0 +1,30 @@
+{
+  "project_name": "Synthetic",
+  "endpoints": [
+    {
+      "id": "ep-user",
+      "method": "PATCH",
+      "host": "app.example.test",
+      "path": "/api/users/123",
+      "normalized_path": "/api/users/{id}",
+      "url": "https://app.example.test/api/users/123",
+      "risk_tags": [
+        "idor-candidate",
+        "state-changing",
+        "sensitive-data"
+      ],
+      "object_id_candidates": [
+        "userId"
+      ],
+      "severity": "medium",
+      "confidence": "high"
+    }
+  ],
+  "hosts": [
+    "app.example.test"
+  ],
+  "source_files": [
+    "fake.har"
+  ],
+  "summary": {}
+}

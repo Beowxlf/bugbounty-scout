@@ -1,0 +1,9 @@
+{
+  "project_name": "Synthetic",
+  "terms": [],
+  "routes": [
+    "/api/users/{id}"
+  ],
+  "source_files": [],
+  "summary": {}
+}

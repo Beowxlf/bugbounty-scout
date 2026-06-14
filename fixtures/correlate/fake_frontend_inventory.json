@@ -1,0 +1,23 @@
+{
+  "project_name": "Synthetic",
+  "secrets": [],
+  "source_maps": [
+    {
+      "id": "sm-1",
+      "title": "Admin source map route",
+      "finding_type": "source-map-exposure",
+      "asset": "https://app.example.test/admin/users",
+      "risk_tags": [
+        "source-map-exposure",
+        "admin"
+      ],
+      "severity": "low",
+      "confidence": "high",
+      "redacted_evidence": "/admin/users"
+    }
+  ],
+  "findings": [],
+  "storage_references": [],
+  "dom_review_leads": [],
+  "postmessage_leads": []
+}

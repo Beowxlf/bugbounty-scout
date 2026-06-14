@@ -1,0 +1,28 @@
+id: evidence-ready-1
+title: Cross-user profile update
+finding_type: idor
+affected_assets:
+- https://app.example.test/api/users/123
+severity_estimate: high
+confidence: high
+status: ready
+impact: Unauthorized profile modification in synthetic lab.
+severity_rationale: Integrity impact across users.
+expected_behavior: Deny access.
+actual_behavior: Allowed in lab.
+reproduction_steps:
+- id: step-1
+  order: 1
+  action: Use authorized test accounts.
+  expected_result: Denied
+  actual_result: Allowed
+  evidence_reference: ev-1
+evidence_items:
+- id: ev-1
+  type: redacted_response
+  title: Redacted proof
+  sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  redacted: true
+  redacted_evidence_text: <redacted-token>
+quality_warnings: []
+method: PATCH
