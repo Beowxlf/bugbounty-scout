@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Set-Cookie: session_id=fake-session-456; Secure
+Content-Type: application/json
+
+{"invoice":"inv_b","email":"user.b@example.test","phone":"202-555-0142","api_key":"fake-api-key-abcdef"}

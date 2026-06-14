@@ -31,6 +31,20 @@ REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
         r"\1<redacted-secret>",
     ),
     (
+        re.compile(
+            r"(?i)(\b(?:csrf|xsrf|oauth[_-]?code|authorization[_-]?code|"
+            r"refresh[_-]?token)\b\s*[=:]\s*[\"']?)([^\"'\s,;&}]+)"
+        ),
+        r"\1<redacted-secret>",
+    ),
+    (
+        re.compile(
+            r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----",
+            re.DOTALL,
+        ),
+        "<redacted-private-key>",
+    ),
+    (
         re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"),
         "<redacted-email>",
     ),

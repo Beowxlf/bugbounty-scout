@@ -1,0 +1,26 @@
+id: evidence-unredacted
+title: Synthetic response exposes another user profile
+affected_assets: [https://api.example.test/profile]
+severity_estimate: high
+confidence: medium
+status: needs_review
+scope_notes: Authorized synthetic account test.
+expected_behavior: Access should be denied.
+actual_behavior: Another profile was returned.
+impact: Cross-user profile data is visible.
+severity_rationale: Response proof shows cross-user data.
+remediation: Enforce ownership checks.
+reproduction_steps: []
+evidence_items:
+  - id: evidence-raw
+    type: raw_response
+    title: Unsafe raw response
+    path: fixtures/evidence/fake_response.txt
+    sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+    redacted: false
+    contains_sensitive_data: true
+    evidence_text: 'Authorization: Bearer fake-token-123456 Cookie: session=fake user@example.test'
+    redacted_evidence_text: ''
+quality_warnings: []
+created_at: 2026-06-14T00:00:00Z
+updated_at: 2026-06-14T00:00:00Z
