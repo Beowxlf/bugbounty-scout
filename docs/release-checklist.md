@@ -16,6 +16,12 @@ default, and restricted to authorized assets, owned systems, and labs.
 
 ## Validation
 
+- Run `bbs submit --help`.
+- Lint `fixtures/submit/fake_draft.yml`.
+- Export the fixture as Markdown and JSON.
+- Build a temporary local package and verify its manifest and checklist.
+- Confirm redaction warnings never print detected secret values.
+
 - Smoke-test `bbs workflow init`, `detect`, `run`, `status`, and `report`.
 
 - [ ] Create a clean Python 3.11, 3.12, and 3.13 environment.

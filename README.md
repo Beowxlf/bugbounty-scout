@@ -18,7 +18,29 @@ It is a passive-first workbench, not an exploit framework, mass scanner,
 authentication bypass tool, WAF evasion tool, credential validator, or data
 exfiltration utility. Phase 1 makes no network requests.
 
-## Completed capabilities (Phase 1 through Phase 3B)
+## Completed capabilities (Phase 1 through Phase 3C)
+
+Phase 3C adds ReportForge, which turns local Evidence Locker workspaces,
+correlator leads, workflow outputs, and finding files into redacted report
+drafts and local packages. It provides generic and platform-style formatting,
+quality blocking checks, attachment manifests, previews, redaction checks, and
+a final manual checklist.
+
+```bash
+bbs submit from-evidence evidence-workspace.yml
+bbs submit from-lead correlation-project.yml --lead-id lead-123
+bbs submit lint report-submission.yml
+bbs submit export report-submission.yml --format markdown
+bbs submit package report-submission.yml --platform hackerone
+```
+
+ReportForge never auto-submits, logs in, calls platform APIs, or requires
+platform credentials. It does not send or replay requests. Sensitive values are
+redacted by default and detections are reported without printing raw values.
+Missing assets, impact, steps, evidence, supported severity, or referenced
+attachments can block readiness. Text detection can produce false positives;
+scope, program rules, screenshots, severity, and every claim require manual
+review.
 
 Phase 3B adds a Workflow Orchestrator that creates a marked project workspace,
 detects and hashes local artifacts, runs compatible passive modules in a safe

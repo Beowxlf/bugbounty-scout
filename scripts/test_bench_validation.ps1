@@ -25,3 +25,6 @@ bbs workflow init testbench-workflow
 bbs workflow detect testbench-workflow
 bbs workflow status testbench-workflow
 bbs workflow clean testbench-workflow
+bbs submit --help
+bbs submit lint fixtures/submit/fake_draft.yml
+bbs submit export fixtures/submit/fake_draft.yml --format markdown

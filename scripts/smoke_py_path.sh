@@ -19,3 +19,10 @@ python -m bugbounty_scout.cli workflow init smoke-workflow >/dev/null
 python -m bugbounty_scout.cli workflow detect smoke-workflow >/dev/null
 python -m bugbounty_scout.cli workflow status smoke-workflow >/dev/null
 python -m bugbounty_scout.cli workflow clean smoke-workflow >/dev/null
+python -m bugbounty_scout.cli submit --help >/dev/null
+python -m bugbounty_scout.cli submit from-evidence fixtures/submit/fake_evidence_workspace.yml --output /tmp/bbs-submission.yml >/dev/null
+python -m bugbounty_scout.cli submit lint fixtures/submit/fake_draft.yml >/dev/null
+python -m bugbounty_scout.cli submit checklist fixtures/submit/fake_draft.yml --format markdown >/dev/null
+python -m bugbounty_scout.cli submit export fixtures/submit/fake_draft.yml --format markdown >/dev/null
+python -m bugbounty_scout.cli submit redact-check fixtures/submit/fake_draft.yml >/dev/null
+rm -f /tmp/bbs-submission.yml

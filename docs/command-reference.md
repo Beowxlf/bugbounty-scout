@@ -1,5 +1,24 @@
 # Command reference
 
+## ReportForge / Submission Packager
+
+```bash
+bbs submit from-evidence evidence-workspace.yml
+bbs submit from-lead correlation-project.yml --lead-id lead-id
+bbs submit from-workflow workflow-workspace/
+bbs submit from-finding finding.yml
+bbs submit lint draft.yml
+bbs submit checklist draft.yml --format markdown
+bbs submit preview draft.yml
+bbs submit export draft.yml --format markdown
+bbs submit attachments draft.yml
+bbs submit redact-check draft.yml
+bbs submit package draft.yml --platform hackerone
+```
+
+All commands operate on local files. They do not submit reports or use platform
+APIs, credentials, live requests, replay, fuzzing, or exploit automation.
+
 ## Workflow Orchestrator
 
 ```bash

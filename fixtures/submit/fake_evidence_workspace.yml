@@ -1,0 +1,40 @@
+id: evidence-cross-user-invoice
+title: User A can access User B invoice metadata
+finding_type: idor
+affected_assets: ["https://api.example.test/api/invoices/{id}"]
+severity_estimate: medium
+confidence: high
+status: ready
+tags: [authorization, idor]
+scope_notes: Synthetic test accounts and invoices authorized by the program.
+actor_context: User A, standard user
+object_context: Invoice B, owned by User B
+expected_behavior: User A should only access User A invoices.
+actual_behavior: User A received User B invoice metadata.
+impact: A user can view invoice metadata belonging to another user.
+severity_rationale: Cross-user metadata exposure supported by redacted request and response proof.
+remediation: Enforce object ownership on every invoice lookup.
+reproduction_steps:
+  - id: step-001
+    order: 1
+    action: Send the captured request as User A for Invoice B.
+    expected_result: Access is denied.
+    actual_result: Invoice metadata is returned.
+    evidence_reference: evidence-response
+    created_at: 2026-06-14T00:00:00Z
+evidence_items:
+  - id: evidence-response
+    type: redacted_response
+    title: Redacted response
+    description: Synthetic response proof
+    path: fixtures/evidence/fake_redacted_response.txt
+    sha256: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    source_module: evidence-locker
+    redacted: true
+    contains_sensitive_data: false
+    evidence_text: ''
+    redacted_evidence_text: 'HTTP/1.1 200 OK\n{"email":"<redacted-email>"}'
+    created_at: 2026-06-14T00:00:00Z
+quality_warnings: []
+created_at: 2026-06-14T00:00:00Z
+updated_at: 2026-06-14T00:00:00Z

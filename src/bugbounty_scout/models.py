@@ -1016,3 +1016,116 @@ class WorkflowManifest(BaseModel):
     )
     created_at: datetime = Field(default_factory=utc_now)
     updated_at: datetime = Field(default_factory=utc_now)
+
+
+class PlatformProfile(StrEnum):
+    GENERIC = "generic"
+    HACKERONE = "hackerone"
+    BUGCROWD = "bugcrowd"
+    INTIGRITI = "intigriti"
+    YESWEHACK = "yeswehack"
+    GITHUB_SECURITY_ADVISORY = "github_security_advisory"
+    INTERNAL = "internal"
+
+
+class SubmissionStatus(StrEnum):
+    DRAFT = "draft"
+    NEEDS_REVIEW = "needs_review"
+    READY = "ready"
+    BLOCKED = "blocked"
+
+
+class AttachmentType(StrEnum):
+    MARKDOWN_REPORT = "markdown_report"
+    JSON_REPORT = "json_report"
+    SCREENSHOT = "screenshot"
+    REQUEST_RESPONSE = "request_response"
+    HAR_EXCERPT = "har_excerpt"
+    ENDPOINT_INVENTORY = "endpoint_inventory"
+    FRONTEND_INVENTORY = "frontend_inventory"
+    AUTH_SURFACE_INVENTORY = "auth_surface_inventory"
+    GRAPHQL_INVENTORY = "graphql_inventory"
+    AUTHZ_MATRIX = "authz_matrix"
+    EVIDENCE_WORKSPACE = "evidence_workspace"
+    CORRELATION_REPORT = "correlation_report"
+    WORKFLOW_REPORT = "workflow_report"
+    NOTE = "note"
+    OTHER = "other"
+
+
+class ChecklistStatus(StrEnum):
+    PASS = "pass"
+    WARNING = "warning"
+    FAIL = "fail"
+    NOT_APPLICABLE = "not_applicable"
+
+
+class SubmissionAttachment(BaseModel):
+    id: str
+    title: str
+    path: str = ""
+    attachment_type: AttachmentType = AttachmentType.OTHER
+    sha256: str = Field(default="", pattern=r"^$|^[a-fA-F0-9]{64}$")
+    size_bytes: int = Field(default=0, ge=0)
+    redacted: bool = True
+    include_in_package: bool = True
+    notes: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class SubmissionChecklistItem(BaseModel):
+    id: str
+    category: str
+    text: str
+    status: ChecklistStatus = ChecklistStatus.WARNING
+    blocking: bool = False
+    recommendation: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class SubmissionDraft(BaseModel):
+    id: str
+    title: str
+    vulnerability_class: str = ""
+    severity_estimate: Severity = Severity.INFO
+    confidence: Confidence = Confidence.MEDIUM
+    affected_assets: list[str] = Field(default_factory=list)
+    summary: str = ""
+    impact: str = ""
+    steps_to_reproduce: list[str] = Field(default_factory=list)
+    expected_behavior: str = ""
+    actual_behavior: str = ""
+    evidence_summary: str = ""
+    remediation: str = ""
+    limitations: str = ""
+    reporter_notes: str = ""
+    scope_notes: str = ""
+    severity_rationale: str = ""
+    platform_profile: PlatformProfile = PlatformProfile.GENERIC
+    source_type: str = ""
+    source_file: str = ""
+    attachments: list[SubmissionAttachment] = Field(default_factory=list)
+    quality_warnings: list[str] = Field(default_factory=list)
+    redaction_warnings: list[str] = Field(default_factory=list)
+    status: SubmissionStatus = SubmissionStatus.DRAFT
+    created_at: datetime = Field(default_factory=utc_now)
+    updated_at: datetime = Field(default_factory=utc_now)
+
+
+class SubmissionPackage(BaseModel):
+    id: str
+    title: str
+    platform_profile: PlatformProfile = PlatformProfile.GENERIC
+    source_type: str = ""
+    source_file: str = ""
+    output_dir: str = ""
+    report_markdown: str = ""
+    report_json: str = ""
+    attachments: list[SubmissionAttachment] = Field(default_factory=list)
+    attachment_manifest: str = ""
+    quality_warnings: list[str] = Field(default_factory=list)
+    redaction_warnings: list[str] = Field(default_factory=list)
+    final_checklist: list[SubmissionChecklistItem] = Field(default_factory=list)
+    status: SubmissionStatus = SubmissionStatus.DRAFT
+    created_at: datetime = Field(default_factory=utc_now)
+    updated_at: datetime = Field(default_factory=utc_now)

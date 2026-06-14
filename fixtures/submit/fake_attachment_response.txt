@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Set-Cookie: <redacted-cookie>
+Content-Type: application/json
+
+{"invoice":"inv_b","email":"<redacted-email>","phone":"<redacted-phone>","api_key":"<redacted-secret>"}

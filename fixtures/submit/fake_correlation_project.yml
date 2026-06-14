@@ -1,0 +1,24 @@
+project_name: Synthetic submission correlation
+artifacts: []
+assets:
+  - id: fake-asset-001
+    asset_type: endpoint
+    host: api.example.test
+    path: /api/invoices/{id}
+    method: GET
+triage_leads:
+  - id: fake-lead-001
+    title: Cross-user invoice metadata is exposed
+    category: idor_bola
+    affected_asset_id: fake-asset-001
+    priority: medium
+    confidence: high
+    severity_estimate: medium
+    reason: Synthetic authorization evidence suggests another test user invoice can be read.
+    manual_validation_steps:
+      - Confirm both accounts and invoices are authorized test data.
+      - Manually request the second test user's invoice once.
+    suggested_evidence_to_collect:
+      - Collect a redacted request and response pair.
+    reportability: needs_more_evidence
+    related_evidence: []

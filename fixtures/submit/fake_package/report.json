@@ -1,0 +1,79 @@
+{
+  "id": "submission-fake-idor",
+  "title": "Cross-user invoice metadata is exposed",
+  "vulnerability_class": "idor_bola",
+  "severity_estimate": "medium",
+  "confidence": "high",
+  "affected_assets": [
+    "https://api.example.test/api/invoices/{id}"
+  ],
+  "summary": "A standard synthetic test user can read invoice metadata owned by another synthetic test user.",
+  "impact": "Cross-user invoice metadata, including billing state, is disclosed.",
+  "steps_to_reproduce": [
+    "Sign in with authorized synthetic test account A.",
+    "Request the invoice identifier owned by authorized synthetic test account B.",
+    "Observe account B invoice metadata in the response."
+  ],
+  "expected_behavior": "The service should deny access to invoices owned by another user.",
+  "actual_behavior": "The service returns the other synthetic user's invoice metadata.",
+  "evidence_summary": "Redacted request and response show the object identifier and returned metadata.",
+  "remediation": "Enforce object ownership checks on every invoice lookup.",
+  "limitations": "Synthetic local fixture; manual validation is required.",
+  "reporter_notes": "Review program rules manually before submission.",
+  "scope_notes": "Synthetic example.test assets only.",
+  "severity_rationale": "Limited cross-user billing metadata disclosure without modification.",
+  "platform_profile": "generic",
+  "source_type": "evidence_workspace",
+  "source_file": "fixtures/submit/fake_evidence_workspace.yml",
+  "attachments": [
+    {
+      "id": "attachment-request",
+      "title": "Redacted request",
+      "path": "fixtures/submit/fake_attachment_request.txt",
+      "attachment_type": "request_response",
+      "sha256": "",
+      "size_bytes": 0,
+      "redacted": true,
+      "include_in_package": true,
+      "notes": "",
+      "created_at": "2026-06-14T04:37:52.421997Z"
+    },
+    {
+      "id": "attachment-response",
+      "title": "Redacted response",
+      "path": "fixtures/submit/fake_attachment_response.txt",
+      "attachment_type": "request_response",
+      "sha256": "",
+      "size_bytes": 0,
+      "redacted": true,
+      "include_in_package": true,
+      "notes": "",
+      "created_at": "2026-06-14T04:37:52.422028Z"
+    },
+    {
+      "id": "attachment-missing",
+      "title": "Missing optional attachment",
+      "path": "fixtures/submit/does-not-exist.txt",
+      "attachment_type": "note",
+      "sha256": "",
+      "size_bytes": 0,
+      "redacted": true,
+      "include_in_package": false,
+      "notes": "",
+      "created_at": "2026-06-14T04:37:52.422032Z"
+    }
+  ],
+  "quality_warnings": [
+    "Report needs manual validation."
+  ],
+  "redaction_warnings": [],
+  "status": "needs_review",
+  "created_at": "2026-06-14T00:00:00Z",
+  "updated_at": "2026-06-14T00:00:00Z",
+  "quality": {
+    "blocking": [],
+    "warnings": [
+      "Report needs manual validation."
+    ]
+  }
+}
