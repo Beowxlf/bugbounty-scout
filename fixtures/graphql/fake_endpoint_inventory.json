@@ -1,0 +1,1 @@
+{"project_name":"Fake endpoints","endpoints":[{"id":"ep-1","method":"POST","host":"api.example.test","path":"/graphql","normalized_path":"/graphql","url":"https://api.example.test/graphql","auth_indicators":["bearer token"],"risk_tags":["graphql"]}],"hosts":["api.example.test"],"source_files":["fake.har"],"summary":{}}

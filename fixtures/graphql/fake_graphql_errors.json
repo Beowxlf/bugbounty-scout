@@ -1,0 +1,1 @@
+{"errors":[{"message":"Synthetic resolver error","path":["user"],"locations":[{"line":2,"column":3}],"extensions":{"debug":{"stack":"FakeResolver at /srv/app/graphql.py:10"}}}]}

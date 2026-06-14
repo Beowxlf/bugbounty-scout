@@ -1,0 +1,1 @@
+{"project_name":"Fake frontend","source_files":["app.js"],"findings":[],"secrets":[],"runtime_configs":[],"source_maps":[],"routes":[{"id":"ep-2","path":"/api/graphql","normalized_path":"/api/graphql","url":"https://api.example.test/api/graphql","risk_tags":["graphql"]}],"api_clients":[],"storage_references":[],"dom_review_leads":[],"postmessage_leads":[],"summary":{}}

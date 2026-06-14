@@ -18,7 +18,7 @@ It is a passive-first workbench, not an exploit framework, mass scanner,
 authentication bypass tool, WAF evasion tool, credential validator, or data
 exfiltration utility. Phase 1 makes no network requests.
 
-## Phase 1.5 through Phase 2F features
+## Phase 1.5 through Phase 2H features
 
 - Typer-based `bbs` CLI
 - Local workspace creation and configuration
@@ -49,6 +49,28 @@ exfiltration utility. Phase 1 makes no network requests.
   endpoint/frontend inventories, authorization matrices, and evidence workspaces
 - Names-only ParamForge reports and TXT/CSV/JSON wordlist exports with frequency
   scoring, risk scoring, thematic tags, filtering, and safe normalization
+- GraphQL Risk Mapper for passive endpoint, operation, variable, fragment, local schema/introspection artifact, batching/error-detail, and authorization-lead review
+- Redacted GraphQL Markdown/JSON reports and observation-driven manual testing checklists
+
+### GraphQL Risk Mapper examples
+
+```bash
+bbs graphql scan-har fixtures/graphql/fake_graphql.har
+bbs graphql scan-file fixtures/graphql/fake_query.graphql
+bbs graphql scan-folder fixtures/graphql/fake_folder
+bbs graphql scan-inventory endpoint-inventory.json
+bbs graphql endpoints capture.har
+bbs graphql operations capture.har
+bbs graphql variables capture.har
+bbs graphql schema local-introspection.json
+bbs graphql leads capture.har
+bbs graphql report capture.har --format markdown
+bbs graphql checklist capture.har --format json
+```
+
+GraphQL Risk Mapper reads only local captures and artifacts. It identifies observed endpoints, operations, variables, object-ID candidates, sensitive fields, fragments, mutations, local schema/introspection material, batching indicators, and verbose captured errors. It creates conservative manual-review leads rather than claiming vulnerabilities.
+
+It deliberately does not fetch URLs, send queries, replay requests, run introspection, generate payloads, automate authorization bypass, or test depth, complexity, batching abuse, or denial of service. Reports redact credentials, cookies, JWTs, keys, PII, sessions, and authorization material while preserving operation, field, and variable names useful for authorized manual review. See [the GraphQL Risk Mapper guide](docs/graphql-risk-mapper.md).
 
 ### ParamForge examples
 
@@ -125,6 +147,9 @@ bbs frontend dom-leads app.js
 bbs frontend postmessage app.js
 bbs frontend report frontend/ --format markdown
 bbs frontend report frontend/ --format json
+bbs graphql scan-har capture.har
+bbs graphql report capture.har --format markdown
+bbs graphql checklist capture.har --format markdown
 bbs authz init demo
 bbs authz add-actor demo-authz-matrix.yml --name "User A" --role user
 bbs authz add-object demo-authz-matrix.yml --type invoice --name "Invoice A" \
@@ -245,13 +270,13 @@ See [docs/safety.md](docs/safety.md),
 [docs/har-analyzer.md](docs/har-analyzer.md),
 [docs/endpoint-mapper.md](docs/endpoint-mapper.md),
 [docs/frontend-exposure-analyzer.md](docs/frontend-exposure-analyzer.md),
-[docs/idor-bola-matrix.md](docs/idor-bola-matrix.md), and
+[docs/idor-bola-matrix.md](docs/idor-bola-matrix.md),
+[docs/graphql-risk-mapper.md](docs/graphql-risk-mapper.md), and
 [SECURITY.md](SECURITY.md).
 
 ## Planned modules
 
-HAR Analyzer, Passive Endpoint Mapper, Frontend Exposure Analyzer, and the
-IDOR/BOLA Matrix are implemented through Phase 2D.
+HAR Analyzer, Passive Endpoint Mapper, Frontend Exposure Analyzer, IDOR/BOLA Matrix, Evidence Locker, ParamForge, Auth Surface Analyzer, and GraphQL Risk Mapper are implemented through Phase 2H.
 Possible next passive-first
 modules, subject to the same authorization and redaction boundaries, include:
 
@@ -259,7 +284,6 @@ modules, subject to the same authorization and redaction boundaries, include:
 - JWT Risk Inspector
 - Header/Cookie Auditor
 - CORS Auditor
-- GraphQL Risk Mapper
 - Evidence Locker
 - ReportForge
 

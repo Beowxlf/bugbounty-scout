@@ -1,0 +1,4 @@
+query GetUser($userId: ID!, $tenantId: ID!) {
+  user(id: $userId, tenantId: $tenantId) { ...UserDetails }
+}
+fragment UserDetails on User { id email fullName roles permissions organization { id } }

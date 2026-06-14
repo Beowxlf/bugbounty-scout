@@ -12,6 +12,7 @@ from bugbounty_scout.commands import (
     endpoints_cmd,
     evidence_cmd,
     frontend_cmd,
+    graphql_cmd,
     har_cmd,
     paramforge_cmd,
     report_cmd,
@@ -34,6 +35,7 @@ app.add_typer(authz_cmd.app, name="authz")
 app.add_typer(auth_surface_cmd.app, name="auth-surface")
 app.add_typer(evidence_cmd.app, name="evidence")
 app.add_typer(paramforge_cmd.app, name="paramforge")
+app.add_typer(graphql_cmd.app, name="graphql")
 app.command("redact")(redact_file)
 console = Console()
 

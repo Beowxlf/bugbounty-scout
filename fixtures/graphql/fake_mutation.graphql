@@ -1,0 +1,3 @@
+mutation UpdateInvoice($invoiceId: ID!, $orgId: ID!, $paymentMethodId: ID) {
+  updateInvoice(invoiceId: $invoiceId, orgId: $orgId, paymentMethodId: $paymentMethodId) { id billing paymentMethod }
+}
