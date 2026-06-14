@@ -1,5 +1,14 @@
 # Changelog
 
+## Phase 3C - ReportForge / Submission Packager
+
+- Added local submission drafts sourced from Evidence Locker, correlator leads,
+  workflow outputs, and finding files.
+- Added redacted platform-profile exports, quality linting, checklists,
+  attachment manifests, previews, and local package creation.
+- Preserved the manual-submission boundary: no network calls, credentials,
+  platform APIs, request replay, or exploit automation.
+
 ## Phase 3B — Workflow Orchestrator
 
 - Added a marked, local-only project workspace and `bbs workflow` command group.

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "attachment-request",
+    "title": "Redacted request",
+    "path": "fixtures/submit/fake_attachment_request.txt",
+    "attachment_type": "request_response",
+    "sha256": "",
+    "size_bytes": 0,
+    "redacted": true,
+    "include_in_package": true,
+    "notes": "",
+    "created_at": "2026-06-14T04:37:52.421997Z"
+  },
+  {
+    "id": "attachment-response",
+    "title": "Redacted response",
+    "path": "fixtures/submit/fake_attachment_response.txt",
+    "attachment_type": "request_response",
+    "sha256": "",
+    "size_bytes": 0,
+    "redacted": true,
+    "include_in_package": true,
+    "notes": "",
+    "created_at": "2026-06-14T04:37:52.422028Z"
+  },
+  {
+    "id": "attachment-missing",
+    "title": "Missing optional attachment",
+    "path": "fixtures/submit/does-not-exist.txt",
+    "attachment_type": "note",
+    "sha256": "",
+    "size_bytes": 0,
+    "redacted": true,
+    "include_in_package": false,
+    "notes": "",
+    "created_at": "2026-06-14T04:37:52.422032Z"
+  }
+]

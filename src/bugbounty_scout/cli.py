@@ -20,6 +20,7 @@ from bugbounty_scout.commands import (
     paramforge_cmd,
     report_cmd,
     scope_cmd,
+    submit_cmd,
     workflow_cmd,
 )
 from bugbounty_scout.commands.redact_cmd import redact_file
@@ -43,6 +44,7 @@ app.add_typer(graphql_cmd.app, name="graphql")
 app.add_typer(correlate_cmd.app, name="correlate")
 app.add_typer(demo_cmd.app, name="demo")
 app.add_typer(workflow_cmd.app, name="workflow")
+app.add_typer(submit_cmd.app, name="submit")
 app.command("redact")(redact_file)
 app.command("doctor")(doctor_cmd.doctor)
 console = Console()

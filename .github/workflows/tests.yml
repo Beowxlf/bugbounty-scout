@@ -34,4 +34,7 @@ jobs:
       - run: bbs workflow run ci-demo
       - run: bbs workflow status ci-demo
       - run: bbs workflow report ci-demo --format markdown
+      - run: bbs submit --help
+      - run: bbs submit lint fixtures/submit/fake_draft.yml
+      - run: bbs submit export fixtures/submit/fake_draft.yml --format markdown
       - run: bash scripts/smoke_py_path.sh

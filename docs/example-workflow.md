@@ -16,6 +16,20 @@ not send or replay requests.
 
 ## Advanced manual path
 
+## Final report packaging
+
+After manually validating a lead and collecting redacted evidence:
+
+```bash
+bbs submit from-evidence evidence/workspace.yml
+bbs submit lint report-title-submission.yml
+bbs submit preview report-title-submission.yml
+bbs submit package report-title-submission.yml --platform generic
+```
+
+Review program rules and the generated checklist manually. BugBountyScout never
+auto-submits the package.
+
 Run individual analyzer commands when you need fine-grained control, then add
 their saved inventories to a correlation project with `bbs correlate`.
 

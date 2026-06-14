@@ -1,0 +1,9 @@
+id: workflow-submit-fixture
+project_name: Synthetic submission workflow
+workspace_path: fixtures/submit/fake_workflow_workspace
+inputs: []
+steps: []
+outputs: []
+correlation_project: correlation-project.yml
+created_at: 2026-06-14T00:00:00Z
+updated_at: 2026-06-14T00:00:00Z
