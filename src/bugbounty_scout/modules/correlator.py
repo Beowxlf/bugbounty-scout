@@ -573,6 +573,7 @@ def _make_lead(asset: CorrelatedAsset, signals: list[RiskSignal]) -> TriageLead:
 
 
 def save(project: ProjectCorrelationInventory, path: Path) -> Path:
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
         yaml.safe_dump(project.model_dump(mode="json"), sort_keys=False),
         encoding="utf-8",

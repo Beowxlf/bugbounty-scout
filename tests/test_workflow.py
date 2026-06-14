@@ -187,6 +187,10 @@ def test_cli_workflow_and_demo_integration(tmp_path, monkeypatch):
     assert (tmp_path / "demo" / MARKER).is_file()
     assert runner.invoke(app, ["workflow", "detect", "demo"]).exit_code == 0
     assert runner.invoke(app, ["workflow", "run", "demo"]).exit_code == 0
+    assert all(
+        step.status != WorkflowStepStatus.FAILED
+        for step in load_manifest(tmp_path / "demo").steps
+    )
 
 
 def test_manifest_is_valid_yaml(tmp_path):
