@@ -1,0 +1,4 @@
+HTTP/1.1 200 OK
+Content-Security-Policy: default-src * 'unsafe-inline'; script-src * 'unsafe-eval'
+X-Content-Type-Options: nosniff
+

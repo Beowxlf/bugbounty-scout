@@ -316,3 +316,33 @@ scans, fuzzes, generates payloads, or calls cloud services. Pattern linting can
 produce false positives and cannot determine scope, exploitability, or severity.
 See [docs/evidence-locker.md](docs/evidence-locker.md) and
 [docs/report-quality-gate.md](docs/report-quality-gate.md).
+
+## Phase 2G: Auth Surface Analyzer
+
+`bbs auth-surface` passively reviews local HAR, raw HTTP, JWT text, JSON/YAML
+inventories, evidence workspaces, and folders for JWT claim/lifetime signals,
+session and CSRF cookie attributes, security headers, observed CORS and cache
+behavior, and auth-related endpoints. It produces redacted structured reports
+and context-specific manual checklists.
+
+```bash
+bbs auth-surface scan-har fixtures/auth_surface/fake_auth.har
+bbs auth-surface scan-file fixtures/auth_surface/fake_jwt.txt
+bbs auth-surface scan-folder fixtures/auth_surface/fake_folder
+bbs auth-surface scan-inventory fixtures/auth_surface/fake_endpoint_inventory.json
+bbs auth-surface jwt fixtures/auth_surface/fake_jwt.txt
+bbs auth-surface cookies fixtures/auth_surface/fake_auth.har
+bbs auth-surface headers fixtures/auth_surface/fake_headers_response.txt
+bbs auth-surface cors fixtures/auth_surface/fake_cors.har
+bbs auth-surface cache fixtures/auth_surface/fake_cache.har
+bbs auth-surface report fixtures/auth_surface/fake_auth.har --format markdown
+bbs auth-surface checklist fixtures/auth_surface/fake_auth.har --format json
+```
+
+JWT decoding is local and does not verify signatures. The analyzer never brute
+forces keys, tests algorithm confusion or signature bypasses, contacts JWKS or
+provider APIs, replays traffic, fetches URLs, fuzzes inputs, or generates exploit
+payloads. Cookie, header, CORS, and cache findings are conservative review leads,
+not vulnerability claims. Tokens, cookie values, authorization headers, API
+keys, PII, and session identifiers are redacted by default. See
+[the Auth Surface Analyzer guide](docs/auth-surface-analyzer.md).

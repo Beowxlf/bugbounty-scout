@@ -1,0 +1,18 @@
+{
+  "project_name": "fake",
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/api/token/refresh",
+      "normalized_path": "/api/token/refresh"
+    }
+  ],
+  "storage_references": [
+    {
+      "storage_type": "localStorage",
+      "key": "authToken",
+      "source_file": "fake.js",
+      "line": 1
+    }
+  ]
+}

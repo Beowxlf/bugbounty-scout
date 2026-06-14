@@ -7,6 +7,7 @@ from rich.console import Console
 
 from bugbounty_scout import __version__
 from bugbounty_scout.commands import (
+    auth_surface_cmd,
     authz_cmd,
     endpoints_cmd,
     evidence_cmd,
@@ -30,6 +31,7 @@ app.add_typer(har_cmd.app, name="har")
 app.add_typer(endpoints_cmd.app, name="endpoints")
 app.add_typer(frontend_cmd.app, name="frontend")
 app.add_typer(authz_cmd.app, name="authz")
+app.add_typer(auth_surface_cmd.app, name="auth-surface")
 app.add_typer(evidence_cmd.app, name="evidence")
 app.add_typer(paramforge_cmd.app, name="paramforge")
 app.command("redact")(redact_file)
