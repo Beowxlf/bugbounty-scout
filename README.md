@@ -251,3 +251,38 @@ scope-aware, and redacted-by-default design. See
 ## License
 
 Apache License 2.0. See [LICENSE](LICENSE).
+
+## Phase 2E: Evidence Locker and Report Quality Gate
+
+Phase 2E adds local, report-ready evidence workspaces with SHA-256 file hashes,
+ordered reproduction steps, expected-versus-actual behavior, actor/object context,
+impact and severity rationale, redacted proof snippets, and Markdown/JSON exports.
+The quality gate warns about missing proof, vague or speculative wording,
+unsupported severity, missing impact/remediation/scope context, and possible
+unredacted secrets or PII. Warnings inform manual review and never block export.
+
+```bash
+bbs evidence init "User A can access User B invoice"
+bbs evidence add-request user-a-can-access-user-b-invoice-evidence.yml request.txt
+bbs evidence add-response user-a-can-access-user-b-invoice-evidence.yml response.txt
+bbs evidence add-step user-a-can-access-user-b-invoice-evidence.yml \
+  --action "Request Invoice B as User A" --expected "Access is denied" \
+  --actual "Invoice metadata is returned"
+bbs evidence set-impact user-a-can-access-user-b-invoice-evidence.yml \
+  --impact "A user can view another user's invoice metadata."
+bbs evidence lint user-a-can-access-user-b-invoice-evidence.yml
+bbs evidence export user-a-can-access-user-b-invoice-evidence.yml --format markdown
+bbs report lint user-a-can-access-user-b-invoice-evidence.yml
+bbs report export user-a-can-access-user-b-invoice-evidence.yml --format json
+```
+
+Evidence files are referenced locally and hashed; binary files are not embedded.
+Text is redacted by default for authorization headers, bearer tokens, JWTs,
+cookies, API/session/CSRF/OAuth/refresh secrets, emails, phone numbers, and
+private-key-like blocks. Attach existing HAR, endpoint, frontend, or authz
+reports with `evidence add-file` and the matching evidence type. This feature
+never captures screenshots, sends/replays requests, validates credentials,
+scans, fuzzes, generates payloads, or calls cloud services. Pattern linting can
+produce false positives and cannot determine scope, exploitability, or severity.
+See [docs/evidence-locker.md](docs/evidence-locker.md) and
+[docs/report-quality-gate.md](docs/report-quality-gate.md).

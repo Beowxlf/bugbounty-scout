@@ -27,6 +27,52 @@ class Confidence(StrEnum):
     CONFIRMED = "confirmed"
 
 
+class EvidenceType(StrEnum):
+    RAW_REQUEST = "raw_request"
+    RAW_RESPONSE = "raw_response"
+    REDACTED_REQUEST = "redacted_request"
+    REDACTED_RESPONSE = "redacted_response"
+    SCREENSHOT = "screenshot"
+    HAR_ENTRY = "har_entry"
+    SOURCE_FILE = "source_file"
+    SOURCE_MAP = "source_map"
+    AUTHZ_MATRIX = "authz_matrix"
+    ENDPOINT_INVENTORY = "endpoint_inventory"
+    FRONTEND_INVENTORY = "frontend_inventory"
+    NOTE = "note"
+    COMMAND_OUTPUT = "command_output"
+    OTHER = "other"
+
+
+class EvidenceStatus(StrEnum):
+    DRAFT = "draft"
+    NEEDS_REVIEW = "needs_review"
+    READY = "ready"
+    SUBMITTED = "submitted"
+    ACCEPTED = "accepted"
+    REJECTED = "rejected"
+    DUPLICATE = "duplicate"
+    INFORMATIONAL = "informational"
+
+
+class QualityWarningCategory(StrEnum):
+    MISSING_IMPACT = "missing_impact"
+    MISSING_EVIDENCE = "missing_evidence"
+    MISSING_REPRODUCTION_STEPS = "missing_reproduction_steps"
+    MISSING_AFFECTED_ASSET = "missing_affected_asset"
+    MISSING_EXPECTED_ACTUAL = "missing_expected_actual"
+    WEAK_LANGUAGE = "weak_language"
+    UNSUPPORTED_SEVERITY = "unsupported_severity"
+    UNREDACTED_SECRET = "unredacted_secret"
+    UNREDACTED_COOKIE = "unredacted_cookie"
+    UNREDACTED_TOKEN = "unredacted_token"
+    PII_EXPOSURE = "pii_exposure"
+    VAGUE_TITLE = "vague_title"
+    NO_REMEDIATION = "no_remediation"
+    NO_SCOPE_NOTES = "no_scope_notes"
+    NEEDS_MANUAL_VALIDATION = "needs_manual_validation"
+
+
 class Finding(BaseModel):
     id: str = Field(min_length=1)
     title: str = Field(min_length=1)
@@ -52,12 +98,65 @@ class Finding(BaseModel):
 
 class EvidenceItem(BaseModel):
     id: str = Field(min_length=1)
-    type: str = Field(min_length=1)
-    path: str = Field(min_length=1)
+    type: EvidenceType
+    title: str = ""
     description: str = ""
-    sha256: str = Field(pattern=r"^[a-fA-F0-9]{64}$")
+    path: str = ""
+    sha256: str = Field(default="", pattern=r"^$|^[a-fA-F0-9]{64}$")
+    source_module: str = "evidence-locker"
     redacted: bool = True
+    contains_sensitive_data: bool = False
+    evidence_text: str = ""
+    redacted_evidence_text: str = ""
     created_at: datetime = Field(default_factory=utc_now)
+
+
+class ReproductionStep(BaseModel):
+    id: str = Field(min_length=1)
+    order: int = Field(ge=1)
+    action: str = Field(min_length=1)
+    expected_result: str = ""
+    actual_result: str = ""
+    evidence_reference: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class ReportQualityWarning(BaseModel):
+    id: str = Field(min_length=1)
+    category: QualityWarningCategory
+    severity: Severity = Severity.INFO
+    message: str = Field(min_length=1)
+    recommendation: str = ""
+    field: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class EvidenceWorkspace(BaseModel):
+    id: str = Field(min_length=1)
+    title: str = Field(min_length=1)
+    finding_type: str = ""
+    affected_assets: list[str] = Field(default_factory=list)
+    severity_estimate: Severity = Severity.INFO
+    confidence: Confidence = Confidence.MEDIUM
+    status: EvidenceStatus = EvidenceStatus.DRAFT
+    tags: list[str] = Field(default_factory=list)
+    scope_notes: str = ""
+    actor_context: str = ""
+    object_context: str = ""
+    expected_behavior: str = ""
+    actual_behavior: str = ""
+    impact: str = ""
+    severity_rationale: str = ""
+    remediation: str = ""
+    reproduction_steps: list[ReproductionStep] = Field(default_factory=list)
+    evidence_items: list[EvidenceItem] = Field(default_factory=list)
+    quality_warnings: list[ReportQualityWarning] = Field(default_factory=list)
+    safety_notice: str = (
+        "Authorized, local-only evidence organization; "
+        "no requests are sent or replayed."
+    )
+    created_at: datetime = Field(default_factory=utc_now)
+    updated_at: datetime = Field(default_factory=utc_now)
 
 
 class ScopeProfile(BaseModel):

@@ -1,0 +1,18 @@
+id: evidence-maybe-header
+title: Security issue
+finding_type: missing-header
+affected_assets: []
+severity_estimate: critical
+confidence: low
+status: draft
+scope_notes: ''
+expected_behavior: ''
+actual_behavior: ''
+impact: ''
+severity_rationale: This maybe should be critical because it seems like a missing header.
+remediation: ''
+reproduction_steps: []
+evidence_items: []
+quality_warnings: []
+created_at: 2026-06-14T00:00:00Z
+updated_at: 2026-06-14T00:00:00Z
