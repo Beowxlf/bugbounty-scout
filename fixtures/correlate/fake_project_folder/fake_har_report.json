@@ -1,0 +1,14 @@
+{
+  "project_name": "Synthetic",
+  "findings": [
+    {
+      "id": "har-1",
+      "title": "Sensitive response cache review",
+      "type": "risky-cache",
+      "asset": "https://app.example.test/api/users/123",
+      "severity": "medium",
+      "confidence": "medium",
+      "redacted_evidence": "cache-control: public"
+    }
+  ]
+}

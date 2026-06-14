@@ -1,0 +1,677 @@
+project_name: Synthetic correlation fixture
+artifacts:
+- id: artifact-16ddc3eacc38
+  artifact_type: auth_surface_inventory
+  path: fixtures/correlate/fake_project_folder/fake_auth_surface_inventory.json
+  source_module: auth_surface_inventory
+  sha256: 2c4ffc4d600b63c39c8c2c37bf9c43809a2f3a1a6596275b67ffaf8840e46b22
+  parsed: true
+  parse_error: ''
+  created_at: '2026-06-14T03:29:58.938543Z'
+- id: artifact-a58071ba09d4
+  artifact_type: authz_matrix
+  path: fixtures/correlate/fake_project_folder/fake_authz_matrix.yml
+  source_module: authz_matrix
+  sha256: 11f4f571894865ef33b86dd18e60cd4f137f399612edbe8bebf816fe0eec2b32
+  parsed: true
+  parse_error: ''
+  created_at: '2026-06-14T03:29:58.940903Z'
+- id: artifact-2f9a132b733c
+  artifact_type: evidence_workspace
+  path: fixtures/correlate/fake_project_folder/fake_evidence_workspace.yml
+  source_module: evidence_workspace
+  sha256: e79c78a717dbf7b0842958ecabc6a71c67ea3fc3e05a8d04c99f04cdbac60cf0
+  parsed: true
+  parse_error: ''
+  created_at: '2026-06-14T03:29:58.943623Z'
+- id: artifact-846d3c71b684
+  artifact_type: finding
+  path: fixtures/correlate/fake_project_folder/fake_finding.yml
+  source_module: manual
+  sha256: 0f7eccc6401d1f95573e573e88f89b33dbc6895222ae7137934b6c5e9aeb65d9
+  parsed: true
+  parse_error: ''
+  created_at: '2026-06-14T03:29:58.944434Z'
+- id: artifact-f6487b89a7c9
+  artifact_type: frontend_inventory
+  path: fixtures/correlate/fake_project_folder/fake_frontend_inventory.json
+  source_module: frontend_inventory
+  sha256: 9324192cffcfbeae44259def8921ab3f2c0beba3d28234831e9e099500b5d73d
+  parsed: true
+  parse_error: ''
+  created_at: '2026-06-14T03:29:58.944590Z'
+- id: artifact-5188eea4f8cf
+  artifact_type: graphql_inventory
+  path: fixtures/correlate/fake_project_folder/fake_graphql_inventory.json
+  source_module: graphql_inventory
+  sha256: 364a9ab95b8637869777a093bfd7359e4704449c942050a2e077ea3e5a0b8a96
+  parsed: true
+  parse_error: ''
+  created_at: '2026-06-14T03:29:58.944709Z'
+- id: artifact-6d8142ba6f17
+  artifact_type: har_report
+  path: fixtures/correlate/fake_project_folder/fake_har_report.json
+  source_module: har_report
+  sha256: 984923bc230044139e48963a09d9b9ffb7f67222a69f7bbb4c07ba8c7f892bf0
+  parsed: true
+  parse_error: ''
+  created_at: '2026-06-14T03:29:58.944807Z'
+- id: artifact-1bb68c604925
+  artifact_type: paramforge_inventory
+  path: fixtures/correlate/fake_project_folder/fake_paramforge_inventory.json
+  source_module: paramforge_inventory
+  sha256: ebbff77b6f5c34e0a0700770f608401386037de145e0ae73943ea2d2f5b8c1e3
+  parsed: true
+  parse_error: ''
+  created_at: '2026-06-14T03:29:58.944943Z'
+- id: artifact-134cd6d654fd
+  artifact_type: endpoint_inventory
+  path: fixtures/correlate/fake_endpoint_inventory.json
+  source_module: endpoint_inventory
+  sha256: b6c4ef6ebbf4fce19644f80ec936e47350e0fbed04398c6f40b525a2be5d4197
+  parsed: true
+  parse_error: ''
+  created_at: '2026-06-14T03:31:35.739854Z'
+assets:
+- id: asset-261c2d3a8ab4
+  asset_type: endpoint
+  host: app.example.test
+  path: /api/users/{id}
+  method: PATCH
+  normalized_path: /api/users/{id}
+  source_modules:
+  - authz_matrix
+  - endpoint_inventory
+  - evidence_workspace
+  related_artifacts:
+  - artifact-134cd6d654fd
+  - artifact-2f9a132b733c
+  - artifact-a58071ba09d4
+  related_endpoints:
+  - ep-user
+  related_graphql_operations: []
+  related_auth_observations: []
+  related_frontend_findings: []
+  related_authz_findings:
+  - az-result
+  related_evidence_workspaces:
+  - evidence-ready-1
+  tags:
+  - idor-candidate
+  - sensitive-data
+  - state-changing
+  risk_score: 92
+  confidence: medium
+  created_at: '2026-06-14T03:31:37.026036Z'
+- id: asset-579fc606a7e2
+  asset_type: graphql_endpoint
+  host: app.example.test
+  path: /graphql
+  method: POST
+  normalized_path: /graphql
+  source_modules:
+  - graphql_inventory
+  related_artifacts:
+  - artifact-5188eea4f8cf
+  related_endpoints: []
+  related_graphql_operations:
+  - gql-op
+  related_auth_observations: []
+  related_frontend_findings: []
+  related_authz_findings: []
+  related_evidence_workspaces: []
+  tags:
+  - graphql
+  risk_score: 38
+  confidence: medium
+  created_at: '2026-06-14T03:31:37.029808Z'
+- id: asset-97f42bfc919b
+  asset_type: endpoint
+  host: app.example.test
+  path: /api/users/123
+  method: UNKNOWN
+  normalized_path: /api/users/{id}
+  source_modules:
+  - auth_surface_inventory
+  - har_report
+  related_artifacts:
+  - artifact-16ddc3eacc38
+  - artifact-6d8142ba6f17
+  related_endpoints: []
+  related_graphql_operations: []
+  related_auth_observations:
+  - cache-1
+  - jwt-1
+  related_frontend_findings: []
+  related_authz_findings: []
+  related_evidence_workspaces: []
+  tags:
+  - admin-role-claim
+  - jwt-long-lifetime
+  - risky-cache
+  risk_score: 33
+  confidence: medium
+  created_at: '2026-06-14T03:31:37.023618Z'
+- id: asset-a09a70010b5b
+  asset_type: endpoint
+  host: app.example.test
+  path: /admin/users
+  method: UNKNOWN
+  normalized_path: /admin/users
+  source_modules:
+  - frontend_inventory
+  related_artifacts:
+  - artifact-f6487b89a7c9
+  related_endpoints: []
+  related_graphql_operations: []
+  related_auth_observations: []
+  related_frontend_findings:
+  - sm-1
+  related_authz_findings: []
+  related_evidence_workspaces: []
+  tags:
+  - admin
+  - source-map-exposure
+  risk_score: 8
+  confidence: medium
+  created_at: '2026-06-14T03:31:37.029648Z'
+- id: asset-d97b825e5fe1
+  asset_type: endpoint
+  host: app.example.test
+  path: /auth/session
+  method: UNKNOWN
+  normalized_path: /auth/session
+  source_modules:
+  - auth_surface_inventory
+  related_artifacts:
+  - artifact-16ddc3eacc38
+  related_endpoints: []
+  related_graphql_operations: []
+  related_auth_observations:
+  - cookie-1
+  related_frontend_findings: []
+  related_authz_findings: []
+  related_evidence_workspaces: []
+  tags:
+  - missing-httponly
+  risk_score: 8
+  confidence: medium
+  created_at: '2026-06-14T03:31:37.023936Z'
+- id: asset-b825763b3bda
+  asset_type: endpoint
+  host: public.example.test
+  path: /
+  method: UNKNOWN
+  normalized_path: /
+  source_modules:
+  - auth_surface_inventory
+  related_artifacts:
+  - artifact-16ddc3eacc38
+  related_endpoints: []
+  related_graphql_operations: []
+  related_auth_observations:
+  - hdr-1
+  related_frontend_findings: []
+  related_authz_findings: []
+  related_evidence_workspaces: []
+  tags:
+  - missing-header
+  risk_score: 2
+  confidence: medium
+  created_at: '2026-06-14T03:31:37.024025Z'
+- id: asset-f45706f79fad
+  asset_type: endpoint
+  host: public.example.test
+  path: /users/42
+  method: UNKNOWN
+  normalized_path: /users/{id}
+  source_modules:
+  - manual
+  related_artifacts:
+  - artifact-846d3c71b684
+  related_endpoints: []
+  related_graphql_operations: []
+  related_auth_observations: []
+  related_frontend_findings: []
+  related_authz_findings: []
+  related_evidence_workspaces: []
+  tags: []
+  risk_score: 2
+  confidence: medium
+  created_at: '2026-06-14T03:31:37.029449Z'
+signals:
+- id: signal-fb5e1f4de692
+  signal_type: admin-role-claim
+  title: 'Auth surface: admin-role-claim'
+  source_module: auth_surface_inventory
+  source_artifact_id: artifact-16ddc3eacc38
+  asset_id: asset-97f42bfc919b
+  severity: medium
+  confidence: high
+  tags:
+  - admin-role-claim
+  - jwt-long-lifetime
+  evidence: ''
+  redacted_evidence: JWT claims redacted
+  reason: Authentication, session, header, CORS, or cache metadata needs manual context
+    review.
+  created_at: '2026-06-14T03:31:37.023823Z'
+- id: signal-3832284f1e40
+  signal_type: jwt-long-lifetime
+  title: 'Auth surface: jwt-long-lifetime'
+  source_module: auth_surface_inventory
+  source_artifact_id: artifact-16ddc3eacc38
+  asset_id: asset-97f42bfc919b
+  severity: medium
+  confidence: high
+  tags:
+  - admin-role-claim
+  - jwt-long-lifetime
+  evidence: ''
+  redacted_evidence: JWT claims redacted
+  reason: Authentication, session, header, CORS, or cache metadata needs manual context
+    review.
+  created_at: '2026-06-14T03:31:37.023867Z'
+- id: signal-2aeea181aec6
+  signal_type: missing-httponly
+  title: 'Auth surface: missing-httponly'
+  source_module: auth_surface_inventory
+  source_artifact_id: artifact-16ddc3eacc38
+  asset_id: asset-d97b825e5fe1
+  severity: low
+  confidence: high
+  tags:
+  - missing-httponly
+  evidence: ''
+  redacted_evidence: ''
+  reason: Authentication, session, header, CORS, or cache metadata needs manual context
+    review.
+  created_at: '2026-06-14T03:31:37.023976Z'
+- id: signal-1c380a09f664
+  signal_type: missing-header
+  title: 'Auth surface: missing-header'
+  source_module: auth_surface_inventory
+  source_artifact_id: artifact-16ddc3eacc38
+  asset_id: asset-b825763b3bda
+  severity: info
+  confidence: medium
+  tags:
+  - missing-header
+  evidence: ''
+  redacted_evidence: ''
+  reason: Authentication, session, header, CORS, or cache metadata needs manual context
+    review.
+  created_at: '2026-06-14T03:31:37.024057Z'
+- id: signal-825de2943535
+  signal_type: risky-cache
+  title: 'Auth surface: risky-cache'
+  source_module: auth_surface_inventory
+  source_artifact_id: artifact-16ddc3eacc38
+  asset_id: asset-97f42bfc919b
+  severity: medium
+  confidence: medium
+  tags:
+  - risky-cache
+  evidence: ''
+  redacted_evidence: ''
+  reason: Authentication, session, header, CORS, or cache metadata needs manual context
+    review.
+  created_at: '2026-06-14T03:31:37.024129Z'
+- id: signal-110a9feefa34
+  signal_type: authz-mismatch
+  title: Authorization matrix observation
+  source_module: authz_matrix
+  source_artifact_id: artifact-a58071ba09d4
+  asset_id: asset-261c2d3a8ab4
+  severity: high
+  confidence: confirmed
+  tags:
+  - idor-candidate
+  - state-changing
+  evidence: ''
+  redacted_evidence: Expected denied; observed allowed in authorized lab.
+  reason: Recorded expected and observed authorization behavior should be manually
+    validated.
+  created_at: '2026-06-14T03:31:37.026106Z'
+- id: signal-b1bf4e29adbb
+  signal_type: evidence-ready
+  title: Cross-user profile update
+  source_module: evidence_workspace
+  source_artifact_id: artifact-2f9a132b733c
+  asset_id: asset-261c2d3a8ab4
+  severity: info
+  confidence: high
+  tags:
+  - evidence-ready
+  evidence: ''
+  redacted_evidence: ''
+  reason: Evidence workspace quality and completeness were assessed locally.
+  created_at: '2026-06-14T03:31:37.028584Z'
+- id: signal-ae9bcc3ecfb5
+  signal_type: public-identifier
+  title: Public identifier observation
+  source_module: manual
+  source_artifact_id: artifact-846d3c71b684
+  asset_id: asset-f45706f79fad
+  severity: info
+  confidence: medium
+  tags:
+  - public-identifier
+  evidence: ''
+  redacted_evidence: Public numeric identifier; no impact demonstrated.
+  reason: Captured local evidence produced a passive review signal.
+  created_at: '2026-06-14T03:31:37.029509Z'
+- id: signal-ee1630318ea3
+  signal_type: source-map-exposure
+  title: Admin source map route
+  source_module: frontend_inventory
+  source_artifact_id: artifact-f6487b89a7c9
+  asset_id: asset-a09a70010b5b
+  severity: low
+  confidence: high
+  tags:
+  - admin
+  - source-map-exposure
+  evidence: ''
+  redacted_evidence: /admin/users
+  reason: Local frontend analysis produced a review signal.
+  created_at: '2026-06-14T03:31:37.029692Z'
+- id: signal-945e247758ba
+  signal_type: object-id-variable
+  title: UpdateInvoice
+  source_module: graphql_inventory
+  source_artifact_id: artifact-5188eea4f8cf
+  asset_id: asset-579fc606a7e2
+  severity: medium
+  confidence: high
+  tags:
+  - object-id-variable
+  - sensitive-fields
+  - state-changing
+  evidence: ''
+  redacted_evidence: 'mutation UpdateInvoice($invoiceId: ID!)'
+  reason: GraphQL operation metadata indicates authorization or sensitive-field review.
+  created_at: '2026-06-14T03:31:37.029860Z'
+- id: signal-9335e92e099f
+  signal_type: sensitive-fields
+  title: UpdateInvoice
+  source_module: graphql_inventory
+  source_artifact_id: artifact-5188eea4f8cf
+  asset_id: asset-579fc606a7e2
+  severity: medium
+  confidence: high
+  tags:
+  - object-id-variable
+  - sensitive-fields
+  - state-changing
+  evidence: ''
+  redacted_evidence: 'mutation UpdateInvoice($invoiceId: ID!)'
+  reason: GraphQL operation metadata indicates authorization or sensitive-field review.
+  created_at: '2026-06-14T03:31:37.029892Z'
+- id: signal-651d20918b02
+  signal_type: state-changing
+  title: UpdateInvoice
+  source_module: graphql_inventory
+  source_artifact_id: artifact-5188eea4f8cf
+  asset_id: asset-579fc606a7e2
+  severity: medium
+  confidence: high
+  tags:
+  - object-id-variable
+  - sensitive-fields
+  - state-changing
+  evidence: ''
+  redacted_evidence: 'mutation UpdateInvoice($invoiceId: ID!)'
+  reason: GraphQL operation metadata indicates authorization or sensitive-field review.
+  created_at: '2026-06-14T03:31:37.029920Z'
+- id: signal-6911573422ec
+  signal_type: risky-cache
+  title: Sensitive response cache review
+  source_module: har_report
+  source_artifact_id: artifact-6d8142ba6f17
+  asset_id: asset-97f42bfc919b
+  severity: medium
+  confidence: medium
+  tags:
+  - risky-cache
+  evidence: ''
+  redacted_evidence: 'cache-control: public'
+  reason: Captured local evidence produced a passive review signal.
+  created_at: '2026-06-14T03:31:37.030070Z'
+- id: signal-77606e02496d
+  signal_type: idor-candidate
+  title: Endpoint tagged idor-candidate
+  source_module: endpoint_inventory
+  source_artifact_id: artifact-134cd6d654fd
+  asset_id: asset-261c2d3a8ab4
+  severity: medium
+  confidence: high
+  tags:
+  - idor-candidate
+  - sensitive-data
+  - state-changing
+  evidence: ''
+  redacted_evidence: ''
+  reason: Passive endpoint metadata indicates a manual-review lead.
+  created_at: '2026-06-14T03:31:37.030249Z'
+- id: signal-f6b473f717cf
+  signal_type: state-changing
+  title: Endpoint tagged state-changing
+  source_module: endpoint_inventory
+  source_artifact_id: artifact-134cd6d654fd
+  asset_id: asset-261c2d3a8ab4
+  severity: medium
+  confidence: high
+  tags:
+  - idor-candidate
+  - sensitive-data
+  - state-changing
+  evidence: ''
+  redacted_evidence: ''
+  reason: Passive endpoint metadata indicates a manual-review lead.
+  created_at: '2026-06-14T03:31:37.030271Z'
+- id: signal-9939dfbaaa61
+  signal_type: sensitive-data
+  title: Endpoint tagged sensitive-data
+  source_module: endpoint_inventory
+  source_artifact_id: artifact-134cd6d654fd
+  asset_id: asset-261c2d3a8ab4
+  severity: medium
+  confidence: high
+  tags:
+  - idor-candidate
+  - sensitive-data
+  - state-changing
+  evidence: ''
+  redacted_evidence: ''
+  reason: Passive endpoint metadata indicates a manual-review lead.
+  created_at: '2026-06-14T03:31:37.030291Z'
+triage_leads:
+- id: lead-4d6164198bac
+  title: 'Manual review: PATCH app.example.test/api/users/{id}'
+  category: idor_bola
+  affected_asset_id: asset-261c2d3a8ab4
+  source_signals:
+  - signal-110a9feefa34
+  - signal-b1bf4e29adbb
+  - signal-77606e02496d
+  - signal-f6b473f717cf
+  - signal-9939dfbaaa61
+  priority: critical
+  confidence: high
+  severity_estimate: high
+  reason: 5 passive signal(s) correlate to this asset; classification remains conservative
+    until manual validation.
+  manual_validation_steps:
+  - Confirm the affected asset is in scope.
+  - Compare expected and observed behavior using an authorized manual workflow.
+  - Confirm impact without expanding access or collecting unnecessary data.
+  suggested_evidence_to_collect:
+  - Redacted request/response or local observation reference
+  - Expected versus actual behavior
+  - Impact statement and severity rationale
+  reportability: report_ready
+  related_evidence:
+  - artifact-2f9a132b733c
+  - artifact-a58071ba09d4
+  created_at: '2026-06-14T03:31:37.030503Z'
+- id: lead-9ef7b657dcd5
+  title: 'Manual review: POST app.example.test/graphql'
+  category: graphql_authorization_review
+  affected_asset_id: asset-579fc606a7e2
+  source_signals:
+  - signal-945e247758ba
+  - signal-9335e92e099f
+  - signal-651d20918b02
+  priority: low
+  confidence: high
+  severity_estimate: medium
+  reason: 3 passive signal(s) correlate to this asset; classification remains conservative
+    until manual validation.
+  manual_validation_steps:
+  - Confirm the affected asset is in scope.
+  - Compare expected and observed behavior using an authorized manual workflow.
+  - Confirm impact without expanding access or collecting unnecessary data.
+  suggested_evidence_to_collect:
+  - Redacted request/response or local observation reference
+  - Expected versus actual behavior
+  - Impact statement and severity rationale
+  reportability: needs_manual_validation
+  related_evidence:
+  - artifact-5188eea4f8cf
+  created_at: '2026-06-14T03:31:37.030634Z'
+- id: lead-eab6bfb872e9
+  title: 'Manual review: UNKNOWN app.example.test/api/users/{id}'
+  category: needs_manual_review
+  affected_asset_id: asset-97f42bfc919b
+  source_signals:
+  - signal-fb5e1f4de692
+  - signal-3832284f1e40
+  - signal-825de2943535
+  - signal-6911573422ec
+  priority: low
+  confidence: high
+  severity_estimate: medium
+  reason: 4 passive signal(s) correlate to this asset; classification remains conservative
+    until manual validation.
+  manual_validation_steps:
+  - Confirm the affected asset is in scope.
+  - Compare expected and observed behavior using an authorized manual workflow.
+  - Confirm impact without expanding access or collecting unnecessary data.
+  suggested_evidence_to_collect:
+  - Redacted request/response or local observation reference
+  - Expected versus actual behavior
+  - Impact statement and severity rationale
+  reportability: needs_manual_validation
+  related_evidence:
+  - artifact-16ddc3eacc38
+  - artifact-6d8142ba6f17
+  created_at: '2026-06-14T03:31:37.030387Z'
+- id: lead-56cad9a9f9dd
+  title: 'Manual review: UNKNOWN public.example.test/'
+  category: likely_noise
+  affected_asset_id: asset-b825763b3bda
+  source_signals:
+  - signal-1c380a09f664
+  priority: informational
+  confidence: medium
+  severity_estimate: info
+  reason: 1 passive signal(s) correlate to this asset; classification remains conservative
+    until manual validation.
+  manual_validation_steps:
+  - Confirm the affected asset is in scope.
+  - Compare expected and observed behavior using an authorized manual workflow.
+  - Confirm impact without expanding access or collecting unnecessary data.
+  suggested_evidence_to_collect:
+  - Redacted request/response or local observation reference
+  - Expected versus actual behavior
+  - Impact statement and severity rationale
+  reportability: likely_noise
+  related_evidence: []
+  created_at: '2026-06-14T03:31:37.030458Z'
+- id: lead-61604e5b0160
+  title: 'Manual review: UNKNOWN public.example.test/users/{id}'
+  category: likely_noise
+  affected_asset_id: asset-f45706f79fad
+  source_signals:
+  - signal-ae9bcc3ecfb5
+  priority: informational
+  confidence: medium
+  severity_estimate: info
+  reason: 1 passive signal(s) correlate to this asset; classification remains conservative
+    until manual validation.
+  manual_validation_steps:
+  - Confirm the affected asset is in scope.
+  - Compare expected and observed behavior using an authorized manual workflow.
+  - Confirm impact without expanding access or collecting unnecessary data.
+  suggested_evidence_to_collect:
+  - Redacted request/response or local observation reference
+  - Expected versus actual behavior
+  - Impact statement and severity rationale
+  reportability: likely_noise
+  related_evidence:
+  - artifact-846d3c71b684
+  created_at: '2026-06-14T03:31:37.030531Z'
+- id: lead-8c15391ee667
+  title: 'Manual review: UNKNOWN app.example.test/auth/session'
+  category: session_cookie_review
+  affected_asset_id: asset-d97b825e5fe1
+  source_signals:
+  - signal-2aeea181aec6
+  priority: informational
+  confidence: medium
+  severity_estimate: low
+  reason: 1 passive signal(s) correlate to this asset; classification remains conservative
+    until manual validation.
+  manual_validation_steps:
+  - Confirm the affected asset is in scope.
+  - Compare expected and observed behavior using an authorized manual workflow.
+  - Confirm impact without expanding access or collecting unnecessary data.
+  suggested_evidence_to_collect:
+  - Redacted request/response or local observation reference
+  - Expected versus actual behavior
+  - Impact statement and severity rationale
+  reportability: needs_more_evidence
+  related_evidence: []
+  created_at: '2026-06-14T03:31:37.030428Z'
+- id: lead-bfa067515c38
+  title: 'Manual review: UNKNOWN app.example.test/admin/users'
+  category: likely_noise
+  affected_asset_id: asset-a09a70010b5b
+  source_signals:
+  - signal-ee1630318ea3
+  priority: informational
+  confidence: medium
+  severity_estimate: low
+  reason: 1 passive signal(s) correlate to this asset; classification remains conservative
+    until manual validation.
+  manual_validation_steps:
+  - Confirm the affected asset is in scope.
+  - Compare expected and observed behavior using an authorized manual workflow.
+  - Confirm impact without expanding access or collecting unnecessary data.
+  suggested_evidence_to_collect:
+  - Redacted request/response or local observation reference
+  - Expected versus actual behavior
+  - Impact statement and severity rationale
+  reportability: likely_noise
+  related_evidence:
+  - artifact-f6487b89a7c9
+  created_at: '2026-06-14T03:31:37.030596Z'
+source_files:
+- fixtures/correlate/fake_project_folder/fake_auth_surface_inventory.json
+- fixtures/correlate/fake_project_folder/fake_authz_matrix.yml
+- fixtures/correlate/fake_project_folder/fake_evidence_workspace.yml
+- fixtures/correlate/fake_project_folder/fake_finding.yml
+- fixtures/correlate/fake_project_folder/fake_frontend_inventory.json
+- fixtures/correlate/fake_project_folder/fake_graphql_inventory.json
+- fixtures/correlate/fake_project_folder/fake_har_report.json
+- fixtures/correlate/fake_project_folder/fake_paramforge_inventory.json
+- fixtures/correlate/fake_endpoint_inventory.json
+generated_at: '2026-06-14T03:29:58.944963Z'
+summary:
+  artifacts: 9
+  assets: 7
+  signals: 16
+  triage_leads: 7
+  report_ready: 1
+  evidence_workspaces_ready: 1

@@ -370,3 +370,38 @@ payloads. Cookie, header, CORS, and cache findings are conservative review leads
 not vulnerability claims. Tokens, cookie values, authorization headers, API
 keys, PII, and session identifiers are redacted by default. See
 [the Auth Surface Analyzer guide](docs/auth-surface-analyzer.md).
+
+## Phase 2I: Project Correlator
+
+The passive, local-only Project Correlator combines saved outputs from the HAR
+Analyzer, Endpoint Mapper, Frontend Exposure Analyzer, ParamForge, Auth Surface
+Analyzer, GraphQL Risk Mapper, IDOR/BOLA Matrix, Evidence Locker, and legacy
+findings. It normalizes endpoint paths, extracts conservative risk signals, and
+produces project-level assets, triage leads, reportability assessments, and a
+manual validation checklist.
+
+```bash
+bbs correlate scan fixtures/correlate/fake_project_folder
+bbs correlate build correlation-project.yml
+bbs correlate assets correlation-project.yml
+bbs correlate signals correlation-project.yml
+bbs correlate leads correlation-project.yml
+bbs correlate report correlation-project.yml --format markdown
+bbs correlate export-leads correlation-project.yml --format json
+bbs correlate checklist correlation-project.yml --format markdown
+```
+
+Priority is a transparent 0–100 aggregation of source severity, supporting
+signals, evidence, sensitive/state-changing context, and authorization-boundary
+indicators. Reportability is separate: a high-priority lead can still require
+manual validation or more evidence. Treat missing headers, public identifiers,
+and source maps without demonstrated sensitive content as weak signals; do not
+over-report them.
+
+All processing is local. Evidence text is redacted by default, and linked
+Evidence Locker hashes and quality state are preferred over raw evidence. The
+correlator sends no requests, performs no replay, scanning, fuzzing,
+introspection, payload generation, secret validation, or exploitation. Its
+output is a prioritization aid rather than proof of a vulnerability. See
+[Project Correlator](docs/project-correlator.md) for the workflow, scoring model,
+and limitations.

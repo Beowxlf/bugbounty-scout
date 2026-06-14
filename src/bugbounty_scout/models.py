@@ -757,3 +757,138 @@ class WordlistExport(BaseModel):
     output_format: str
     generated_at: datetime = Field(default_factory=utc_now)
     source_inventory: str = ""
+
+
+class ArtifactType(StrEnum):
+    HAR_REPORT = "har_report"
+    ENDPOINT_INVENTORY = "endpoint_inventory"
+    FRONTEND_INVENTORY = "frontend_inventory"
+    PARAMFORGE_INVENTORY = "paramforge_inventory"
+    AUTH_SURFACE_INVENTORY = "auth_surface_inventory"
+    GRAPHQL_INVENTORY = "graphql_inventory"
+    AUTHZ_MATRIX = "authz_matrix"
+    EVIDENCE_WORKSPACE = "evidence_workspace"
+    FINDING = "finding"
+    MARKDOWN_REPORT = "markdown_report"
+    JSON_REPORT = "json_report"
+    UNKNOWN = "unknown"
+
+
+class LeadCategory(StrEnum):
+    IDOR_BOLA = "idor_bola"
+    BROKEN_ROLE_AUTHORIZATION = "broken_role_authorization"
+    CROSS_TENANT_REVIEW = "cross_tenant_review"
+    CROSS_ORG_REVIEW = "cross_org_review"
+    SENSITIVE_DATA_EXPOSURE = "sensitive_data_exposure"
+    EXPOSED_SECRET_REVIEW = "exposed_secret_review"
+    FRONTEND_CONFIG_EXPOSURE = "frontend_config_exposure"
+    SOURCE_MAP_REVIEW = "source_map_review"
+    JWT_REVIEW = "jwt_review"
+    SESSION_COOKIE_REVIEW = "session_cookie_review"
+    CORS_REVIEW = "cors_review"
+    CACHE_REVIEW = "cache_review"
+    GRAPHQL_AUTHORIZATION_REVIEW = "graphql_authorization_review"
+    GRAPHQL_SENSITIVE_FIELD_REVIEW = "graphql_sensitive_field_review"
+    FILE_UPLOAD_REVIEW = "file_upload_review"
+    FILE_DOWNLOAD_REVIEW = "file_download_review"
+    BILLING_REVIEW = "billing_review"
+    ADMIN_REVIEW = "admin_review"
+    AUTH_FLOW_REVIEW = "auth_flow_review"
+    DEBUG_LEAK_REVIEW = "debug_leak_review"
+    REPORT_READY_CANDIDATE = "report_ready_candidate"
+    NEEDS_MORE_EVIDENCE = "needs_more_evidence"
+    LIKELY_NOISE = "likely_noise"
+    NEEDS_MANUAL_REVIEW = "needs_manual_review"
+
+
+class Priority(StrEnum):
+    CRITICAL = "critical"
+    HIGH = "high"
+    MEDIUM = "medium"
+    LOW = "low"
+    INFORMATIONAL = "informational"
+
+
+class Reportability(StrEnum):
+    REPORT_READY = "report_ready"
+    NEEDS_MORE_EVIDENCE = "needs_more_evidence"
+    NEEDS_MANUAL_VALIDATION = "needs_manual_validation"
+    LIKELY_DUPLICATE = "likely_duplicate"
+    LIKELY_INFORMATIONAL = "likely_informational"
+    LIKELY_NOISE = "likely_noise"
+
+
+class ProjectArtifact(BaseModel):
+    id: str
+    artifact_type: ArtifactType = ArtifactType.UNKNOWN
+    path: str
+    source_module: str = ""
+    sha256: str = Field(pattern=r"^[a-fA-F0-9]{64}$")
+    parsed: bool = False
+    parse_error: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class CorrelatedAsset(BaseModel):
+    id: str
+    asset_type: str = "endpoint"
+    host: str = ""
+    path: str = ""
+    method: str = "UNKNOWN"
+    normalized_path: str = ""
+    source_modules: list[str] = Field(default_factory=list)
+    related_artifacts: list[str] = Field(default_factory=list)
+    related_endpoints: list[str] = Field(default_factory=list)
+    related_graphql_operations: list[str] = Field(default_factory=list)
+    related_auth_observations: list[str] = Field(default_factory=list)
+    related_frontend_findings: list[str] = Field(default_factory=list)
+    related_authz_findings: list[str] = Field(default_factory=list)
+    related_evidence_workspaces: list[str] = Field(default_factory=list)
+    tags: list[str] = Field(default_factory=list)
+    risk_score: int = Field(default=0, ge=0, le=100)
+    confidence: Confidence = Confidence.MEDIUM
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class RiskSignal(BaseModel):
+    id: str
+    signal_type: str
+    title: str
+    source_module: str
+    source_artifact_id: str
+    asset_id: str = ""
+    severity: Severity = Severity.INFO
+    confidence: Confidence = Confidence.MEDIUM
+    tags: list[str] = Field(default_factory=list)
+    evidence: str = ""
+    redacted_evidence: str = ""
+    reason: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class TriageLead(BaseModel):
+    id: str
+    title: str
+    category: LeadCategory
+    affected_asset_id: str = ""
+    source_signals: list[str] = Field(default_factory=list)
+    priority: Priority = Priority.INFORMATIONAL
+    confidence: Confidence = Confidence.MEDIUM
+    severity_estimate: Severity = Severity.INFO
+    reason: str = ""
+    manual_validation_steps: list[str] = Field(default_factory=list)
+    suggested_evidence_to_collect: list[str] = Field(default_factory=list)
+    reportability: Reportability = Reportability.NEEDS_MANUAL_VALIDATION
+    related_evidence: list[str] = Field(default_factory=list)
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class ProjectCorrelationInventory(BaseModel):
+    project_name: str = "BugBountyScout correlation project"
+    artifacts: list[ProjectArtifact] = Field(default_factory=list)
+    assets: list[CorrelatedAsset] = Field(default_factory=list)
+    signals: list[RiskSignal] = Field(default_factory=list)
+    triage_leads: list[TriageLead] = Field(default_factory=list)
+    source_files: list[str] = Field(default_factory=list)
+    generated_at: datetime = Field(default_factory=utc_now)
+    summary: dict[str, Any] = Field(default_factory=dict)

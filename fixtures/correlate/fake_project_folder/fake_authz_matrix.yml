@@ -1,0 +1,21 @@
+project_name: Synthetic
+actors: []
+objects: []
+endpoints:
+- id: az-ep
+  method: PATCH
+  path: /api/users/{id}
+  url: https://app.example.test/api/users/{id}
+  risk_tags:
+  - idor-candidate
+  - state-changing
+expectations: []
+observed_results:
+- id: az-result
+  endpoint_id: az-ep
+  expected: deny
+  observed: allowed
+  mismatch: true
+  severity: high
+  confidence: confirmed
+  redacted_evidence: Expected denied; observed allowed in authorized lab.

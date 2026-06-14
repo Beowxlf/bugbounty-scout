@@ -1,0 +1,8 @@
+id: finding-public
+title: Public identifier observation
+type: public-identifier
+severity: info
+confidence: medium
+asset: https://public.example.test/users/42
+source_module: manual
+redacted_evidence: Public numeric identifier; no impact demonstrated.
